@@ -8,8 +8,10 @@
 <body>
 	<h1>join page</h1>
 	<form action="/parcel_service/user/join" method="post">
-		<label>id</label><input type="text" autocomplete="off" placeholder="id"><br/>
-		<label>id</label><input type="password" placeholder="pw"><br/>
+		<label>아이디</label><input type="text" name="id" autocomplete="off" placeholder="id"><br/>
+		<label>비밀번호</label><input type="password" name="pw" placeholder="pw"><br/>
+		<label>전화번호</label><input type="tel" name="phone" autocomplete="off" placeholder="phone"><br/>
+		<label>이메일</label><input type="email" name="email" autocomplete="off" placeholder="email"><br/>
 		<!-- 
 			id,pw,phone,email
 		 -->

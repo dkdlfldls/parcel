@@ -11,15 +11,32 @@
             base-package="org.springframework.samples.web"/>  -->
 
 
-    <mvc:annotation-driven />
-    <mvc:default-servlet-handler/>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
 
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+    <mvc:default-servlet-handler/>
+	<!-- 
+	<mvc:resources mapping="/resources/**" location="classpath:/resources/" cache-period="31556926"/>
+	 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
 	        <property name="prefix" value="/WEB-INF/view/"/>
 	        <property name="suffix" value=".jsp"/>
 	</bean>
 	
+	
+	
+	
 	<context:component-scan base-package="com.parcel.controller"></context:component-scan>
+	
 
 </beans>
