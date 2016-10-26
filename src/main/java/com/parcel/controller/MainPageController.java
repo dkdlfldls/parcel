@@ -9,15 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.parcel.service.TestService;
+import com.parcel.entity.MainPageEntity;
+import com.parcel.entity.User;
+import com.parcel.service.UserService;
 
 @Controller
-public class PageController {
+public class MainPageController {
 	
-	private Logger logger = LoggerFactory.getLogger(PageController.class);
+	private Logger logger = LoggerFactory.getLogger(MainPageController.class);
 	
 	@Autowired
-	private TestService service;
+	private UserService userService;
 	
 	@RequestMapping("/")
 	public String getIndexPage(HttpSession session) {
@@ -31,8 +33,13 @@ public class PageController {
 	}
 	
 	@RequestMapping("/main")
-	public String getMainPage(HttpSession session) {
-		if ((int)session.getAttribute("idx") > 0) {
+	public String getMainPage(HttpSession session, Model model) {
+		int idx;
+		
+		if (session.getAttribute("idx") != null) {
+			idx = (int) session.getAttribute("idx");
+			model.addAttribute("userEntity", userService.getMainPageEntityForUserInfo(idx));  //요놈 가능하다면 aop로 빼버려야 겠다.
+			model.addAttribute("listEntity", userService.getMainPageEntityList(idx));
 			return "/main/main";
 		} else {
 			return "/";
@@ -49,5 +56,10 @@ public class PageController {
 	public String getParcelInfo() {
 		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만
 		return "/parcelManager/parcelInfo";
+	}
+	@RequestMapping("/groupInfo")
+	public String getGroupInfo() {
+		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만
+		return "/groupManager/groupInfo";
 	}
 }

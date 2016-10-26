@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,45 +28,37 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>전체선택 <input type="checkbox" value="" class="check-box-align"></th>
-								<th>사용자지정 이름</th>
+								<th></th>
+								<th>택배함 이름</th>
 								<th>공동 사용자 수</th>
 								<th>현재 개폐여부</th>
 							</tr>
 						</thead>
 						<tbody class="middle-align">
-							<tr>
-								<td>1. <input type="checkbox" value="" class="check-box-align"></td>
-								<td class="main-name">이름1</td>
-								<td>3명</td>
-								<td>사용가능</td>
-							</tr>
-							<tr>
-								<td>2. <input type="checkbox" value="" class="check-box-align"></td>
-								<td class="main-name">이름3</td>
-								<td>0명</td>
-								<td>잠금</td>
-							</tr>
+							<c:forEach var="i" varStatus="status" items="${listEntity}">
+								<tr>
+									<td>${status.count }.</td>
+									<td class="main-name">${i.pname }</td>
+									<td>${i.countg }</td>
+									<td>
+										<c:if test="${i.isopen eq 0}">사용가능</c:if>
+										<c:if test="${i.isopen eq 1}">사용중</c:if>
+									</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 
 				</div>
 			<div class="col-sm-3">
 				<div><!-- 사용자 메뉴 -->
-						<div class="panel panel-info">
-							<div class="panel-heading">로그인 정보</div>
-							<div class="panel-body">
-								이름 : 홍길동<br/>
-								메시지 : 5건<br/>
-								로그아웃하기
-							</div>
-						</div>
-					</div>
+					<jsp:include page="../include/simpleUserInfo.jsp"></jsp:include>
+				</div>
 				<div><!-- 빠른메뉴 -->
 					<div class="panel panel-success">
 							<div class="panel-heading">빠른 메뉴</div>
 							<div class="panel-body">
-								택배함 등록하기<br/>
+								<a href="/parcel_service/product/addPage">택배함 등록하기</a><br/>
 								선택한 택배함 그룹 열기<br/>
 								선택한 택배함 그룹 닫기
 							</div>

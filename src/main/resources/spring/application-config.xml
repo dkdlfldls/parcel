@@ -27,6 +27,7 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/parcel"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="rapa"></property>
+		<property name="connectionProperties" value="useSSL=false"></property>
 	</bean>
 	
 	
