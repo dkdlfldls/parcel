@@ -40,6 +40,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return group;
 			}, pidx);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		
@@ -59,6 +60,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 			}, pidx);
 			
 		} catch(Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		
@@ -81,6 +83,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return group;
 			}, code);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		
@@ -105,6 +108,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 		try {
 			return t.update(sql, member.getGroup(), member.getMember());
 		} catch (Exception e) {
+			e.printStackTrace();
 			return FAIL;
 		}
 		
@@ -123,6 +127,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return g;
 			}, group.getIdx(), group.getPw());
 		} catch (Exception e) {
+			e.printStackTrace();
 			temp = null;
 		}
 		if (temp != null) {
