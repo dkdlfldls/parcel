@@ -38,8 +38,13 @@
 							<c:forEach var="i" varStatus="status" items="${listEntity}">
 								<tr>
 									<td>${status.count }.</td>
-									<td class="main-name">${i.pname }</td>
-									<td>${i.countg }</td>
+									<td class="main-name">
+										<a href="/parcel_service/product/getProductInfo?pidx=${i.pidx }">${i.pname }</a>
+									</td>
+									<td>
+										<c:if test="${i.countg eq 0 }">그룹 없음</c:if>
+										<c:if test="${i.countg ne 0 }">${i.countg }</c:if>
+									</td>
 									<td>
 										<c:if test="${i.isopen eq 0}">사용가능</c:if>
 										<c:if test="${i.isopen eq 1}">사용중</c:if>

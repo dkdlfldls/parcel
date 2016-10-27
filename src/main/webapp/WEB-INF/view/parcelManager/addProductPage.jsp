@@ -42,9 +42,9 @@ $(function(){
 						public_name : $("#public_name").val()
 					}),
 					success: function(data, status){
-						alert(data);
 						if (data == "등록 완료") {
-							//완료 처리
+							alert("등록이 완료되었습니다.");
+							location.href="/parcel_service/main";
 						} else {
 							alert(data);
 							return;

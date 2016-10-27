@@ -67,15 +67,18 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public List<MainPageEntity> getMainPageEntityList(int idx) {
 		logger.info("UserRepository getMainPageEntityList process");
-		String sql = "SELECT p.public_name as pname, p.is_open as isopen, count(gm.idx) as countg " + 
-				"FROM product p, user_group g, group_member gm " + 
-				"WHERE p.registrant = ? AND p.registrant=g.manager AND g.idx=gm.group";
+		String sql = "SELECT p.public_name as pname, p.is_open as isopen, "
+				+ "(SELECT count(gm.idx) FROM user_group ug, group_member gm WHERE ug.product = p.idx AND ug.idx=gm.group) as countg "
+				+ ",p.idx as pidx "
+				+ "FROM product p " 
+				+ "WHERE p.registrant=?";
 		try {
 			return t.query(sql, (rs,no)->{
 				MainPageEntity temp = new MainPageEntity();
 				temp.setPname(rs.getString(1));
 				temp.setIsopen(rs.getInt(2));
 				temp.setCountg(rs.getInt(3));
+				temp.setPidx(rs.getInt(4));
 				return temp;
 			}, idx);
 		} catch(Exception e) {

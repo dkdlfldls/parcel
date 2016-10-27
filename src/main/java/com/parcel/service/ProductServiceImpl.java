@@ -27,6 +27,7 @@ public class ProductServiceImpl implements ProductService{
 		//2. 등록이 되어있다면 등록된 제품이라고 알려주고 등록이 안되어 있다면 update를 시작한다.
 		//3. 업데이트에 실패하면 입력 확인하라고 알려준다.
 		//4. 성공하면 성공했다고 알려준다.
+		System.out.println("=====addProduct process in ProductServiceImpl=====");
 		Product temp = productRepository.checkProduct(product);
 		if (temp == null) {
 			return "입력 정보를 확인하여 주세요";
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService{
 				//등록 시작
 				int result = productRepository.updateProduct(product);
 				if (result > 0 ) {
+					//등록이 됬으면 멤버로 자기자신을 추가해야한다. ㄴㄴ 그룹이 추가되면 자기자신을 추가하도록
 					return "등록 완료";
 				} else {
 					return "입력 정보를 확인하여 주세요";
@@ -45,8 +47,12 @@ public class ProductServiceImpl implements ProductService{
 			}
 		}
 		
-	
-		
+	}
+
+	@Override
+	public Product getProductInfo(int pidx) {
+		System.out.println("=====getProductInfo process in ProductServiceImpl=====");
+		return productRepository.getProductInfo(pidx);
 	}
 
 }

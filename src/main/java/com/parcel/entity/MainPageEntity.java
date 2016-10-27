@@ -7,12 +7,13 @@ public class MainPageEntity {
 	private int isopen;
 	private int countg;
 	private int countm;
+	private int pidx;
 	
 	public MainPageEntity() {
 		
 	}
 	
-	public MainPageEntity(int idx, String name, String pname, int isopen, int countg, int countm) {
+	public MainPageEntity(int idx, String name, String pname, int isopen, int countg, int countm, int pidx) {
 		super();
 		this.idx = idx;
 		this.name = name;
@@ -20,7 +21,18 @@ public class MainPageEntity {
 		this.isopen = isopen;
 		this.countg = countg;
 		this.countm = countm;
+		this.pidx = pidx;
 	}
+	
+	
+	public int getPidx() {
+		return pidx;
+	}
+
+	public void setPidx(int pidx) {
+		this.pidx = pidx;
+	}
+
 	public int getIdx() {
 		return idx;
 	}
@@ -61,8 +73,10 @@ public class MainPageEntity {
 	@Override
 	public String toString() {
 		return "MainPageEntity [idx=" + idx + ", name=" + name + ", pname=" + pname + ", isopen=" + isopen + ", countg="
-				+ countg + ", countm=" + countm + "]";
+				+ countg + ", countm=" + countm + ", pidx=" + pidx + "]";
 	}
+
+	
 	
 	
 	

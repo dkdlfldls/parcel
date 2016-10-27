@@ -23,6 +23,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	
 	@Override
 	public List<Machine> getMachineList() {
+		System.out.println("getMachineList run in ProductRepositoryImpl");
 		String sql = "SELECT * FROM machine";
 		return t.query(sql, (rs,no)->{
 			Machine m = new Machine(
@@ -40,15 +41,15 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 	@Override
 	public int updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		String sql = "UPDATE product SET registrant=?, public_name=?, registration_date=now() WHERE machine=? AND machine_code=?";
+		System.out.println("updateProduct run in ProductRepositoryImpl");
+		String sql = "UPDATE product SET registrant=?, public_name=?, registration_date=now(), state=1 WHERE machine=? AND machine_code=?";
 		
 		return t.update(sql, product.getRegistrant(), product.getPublic_name(), product.getMachine(), product.getMachine_code());
 	}
 
 	@Override
 	public Product checkProduct(Product product) {
-		// TODO Auto-generated method stub
+		System.out.println("checkProduct run in ProductRepositoryImpl");
 		String sql = "SELECT * FROM product WHERE machine=? AND machine_code=?";
 		try {
 			return t.queryForObject(sql, (rs, no)->{
@@ -64,6 +65,31 @@ public class ProductRepositoryImpl implements ProductRepository {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public Product getProductInfo(int pidx) {
+		System.out.println("getProductInfo run in ProductRepositoryImpl");
+		String sql = "SELECT p.*, m.machine_name, u.name as registrant_name "
+				+ "FROM product p, machine m, user u "
+				+ "WHERE p.idx=? AND m.idx=p.machine AND u.idx=p.registrant;";
+		try {
+			return t.queryForObject(sql, (rs, no)->{
+				return new Product(rs.getInt(1),
+						rs.getInt(2),
+						rs.getString(3),
+						rs.getTimestamp(4),
+						rs.getInt(5),
+						rs.getInt(6),
+						rs.getString(7),
+						rs.getInt(8),
+						rs.getString(9),
+						rs.getString(10));
+			}, pidx);
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
 
 }

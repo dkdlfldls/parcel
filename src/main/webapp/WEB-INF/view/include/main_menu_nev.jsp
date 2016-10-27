@@ -6,7 +6,6 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/parcel_service/main">Home</a></li>
-			<li><a href="/parcel_service/parcelInfo">택배함 관리</a></li>
 			<li><a href="/parcel_service/groupInfo">그룹 관리</a></li>
 			<li><a href="#">메시지 관리</a></li>
 			<li><a href="#">개인정보 관리</a></li>

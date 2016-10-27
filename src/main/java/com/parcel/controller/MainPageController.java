@@ -42,7 +42,7 @@ public class MainPageController {
 			model.addAttribute("listEntity", userService.getMainPageEntityList(idx));
 			return "/main/main";
 		} else {
-			return "/";
+			return "../index";
 		}
 		
 	}

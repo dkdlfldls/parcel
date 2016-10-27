@@ -11,15 +11,36 @@ public class Product {
 	private int state;
 	private String public_name;
 	private int is_open;
+	private String machine_name;
+	private String registrant_name;
+	
+	
+	
+	
+	
 	
 	@Override
 	public String toString() {
 		return "Product [idx=" + idx + ", machine=" + machine + ", machine_code=" + machine_code
 				+ ", registration_date=" + registration_date + ", registrant=" + registrant + ", state=" + state
-				+ ", public_name=" + public_name + ", is_open=" + is_open + "]";
+				+ ", public_name=" + public_name + ", is_open=" + is_open + ", machine_name=" + machine_name
+				+ ", registrant_name=" + registrant_name + "]";
 	}
-	public Product(int idx, int machine, String machine_code, Timestamp registration_date, int registrant,
-			int state, String public_name, int is_open) {
+	public Product(int idx, int machine, String machine_code, Timestamp registration_date, int registrant, int state,
+			String public_name, int is_open, String machine_name) {
+		super();
+		this.idx = idx;
+		this.machine = machine;
+		this.machine_code = machine_code;
+		this.registration_date = registration_date;
+		this.registrant = registrant;
+		this.state = state;
+		this.public_name = public_name;
+		this.is_open = is_open;
+		this.machine_name = machine_name;
+	}
+	public Product(int idx, int machine, String machine_code, Timestamp registration_date, int registrant, int state,
+			String public_name, int is_open) {
 		super();
 		this.idx = idx;
 		this.machine = machine;
@@ -31,9 +52,36 @@ public class Product {
 		this.is_open = is_open;
 	}
 	
+
+	public Product(int idx, int machine, String machine_code, Timestamp registration_date, int registrant, int state,
+			String public_name, int is_open, String machine_name, String registrant_name) {
+		super();
+		this.idx = idx;
+		this.machine = machine;
+		this.machine_code = machine_code;
+		this.registration_date = registration_date;
+		this.registrant = registrant;
+		this.state = state;
+		this.public_name = public_name;
+		this.is_open = is_open;
+		this.machine_name = machine_name;
+		this.registrant_name = registrant_name;
+	}
+	
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public String getMachine_name() {
+		return machine_name;
+	}
+
+
+	public void setMachine_name(String machine_name) {
+		this.machine_name = machine_name;
+	}
+
+
 	public int getIdx() {
 		return idx;
 	}
@@ -81,6 +129,12 @@ public class Product {
 	}
 	public void setIs_open(int is_open) {
 		this.is_open = is_open;
+	}
+	public String getRegistrant_name() {
+		return registrant_name;
+	}
+	public void setRegistrant_name(String registrant_name) {
+		this.registrant_name = registrant_name;
 	}
 	
 	

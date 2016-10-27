@@ -10,4 +10,5 @@ public interface ProductService {
 	
 	public List<Machine> getMachineList();
 	public String addProduct(Product product);
+	public Product getProductInfo(int pidx);
 }

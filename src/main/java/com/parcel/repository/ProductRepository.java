@@ -14,5 +14,7 @@ public interface ProductRepository {
 	public int updateProduct(Product product);
 	
 	public Product checkProduct(Product product);
+	
+	public Product getProductInfo(int pidx);
 
 }
