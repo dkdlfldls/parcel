@@ -9,5 +9,5 @@ public interface GroupService {
 
 	public boolean addGroup(Group group);
 
-	public void deleteGroup(Group group);
+	public int deleteGroup(Group group);
 }

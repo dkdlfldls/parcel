@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.parcel.controller.GroupController;
 import com.parcel.entity.Group;
 import com.parcel.entity.GroupMember;
 import com.parcel.entity.User;
@@ -61,6 +63,7 @@ public class GroupServiceImpl implements GroupService {
 			GroupMember member = new GroupMember();
 			member.setGroup(groupIdx);
 			member.setMember(group.getManager());
+			//그룹에 자기자신 추가
 			groupRepository.insertGroupMember(member);
 			return true;
 		} else {
@@ -70,11 +73,34 @@ public class GroupServiceImpl implements GroupService {
 
 	@Transactional
 	@Override
-	public void deleteGroup(Group group) {
+	public int deleteGroup(Group group) {
 		//group idx, pw
-		//1. groupMember를 싹다 지운다.
-		//2. group을 지운다.
-		
+		//0. pw를 확인한다.
+		int delGroupMemberCnt;
+		int delGroupCnt;
+		System.out.println(group.toString());
+		try {
+			if(groupRepository.isValidPw(group)) {
+				//groupMember를 싹다지운다.
+				delGroupMemberCnt = groupRepository.deleteGroupMemberByGroup(group.getIdx());
+				if (delGroupMemberCnt <= 0) {
+					throw new Exception();
+				}
+				//user group를 싹다 지운다.
+				delGroupCnt = groupRepository.deleteGroupByIdx(group.getIdx());
+				if (delGroupCnt <= 0) {
+					throw new Exception();
+				}
+				return GroupController.SUCCESS;
+			} else {
+				return GroupController.WRONG_PW;
+			}
+		} catch (Exception e) {
+			System.out.println("deleteGroup error");
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); //try catch 안에서 트랜잭션 롤백 시키는 방법
+			return GroupController.ERROR;
+		}
 	}
 
 }

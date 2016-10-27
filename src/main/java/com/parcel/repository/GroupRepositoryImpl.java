@@ -111,4 +111,38 @@ public class GroupRepositoryImpl implements GroupRepository {
 		
 	}
 
+	@Override
+	public boolean isValidPw(Group group) {
+		
+		Group temp;
+		String sql = "SELECT idx FROM user_group WHERE idx=? AND pw=?";
+		try {
+			temp = t.queryForObject(sql, (rs,no)->{
+				Group g = new Group();
+				g.setIdx(rs.getInt(1));
+				return g;
+			}, group.getIdx(), group.getPw());
+		} catch (Exception e) {
+			temp = null;
+		}
+		if (temp != null) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public int deleteGroupMemberByGroup(int idx) throws Exception {
+		String sql = "DELETE FROM parcel.group_member WHERE parcel.group_member.group=?";
+		return t.update(sql, idx);
+	}
+
+	@Override
+	public int deleteGroupByIdx(int idx) throws Exception {
+		String sql = "DELETE FROM user_group WHERE idx=?";
+		return t.update(sql, idx);
+	}
+
 }

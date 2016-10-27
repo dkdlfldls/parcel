@@ -16,7 +16,9 @@ import com.parcel.service.GroupService;
 @Controller
 public class GroupController {
 	
-	
+	public static final int WRONG_PW = 0;
+	public static final int ERROR = 1;
+	public static final int SUCCESS = 2;
 	
 	@Autowired
 	private GroupService groupService;
@@ -51,10 +53,9 @@ public class GroupController {
 	}
 	@RequestMapping(value="/group/deleteGroup", method=RequestMethod.POST)
 	@ResponseBody
-	public String deleteGroup(@RequestBody Group group, HttpSession session) {
+	public int deleteGroup(@RequestBody Group group, HttpSession session) {
 		//스프링 시큐리티로 꼭 사용자 확인 해줘야한다. 안그러면 그냥 삭제 막 할 수 있다.ㄲ꼬꼬꼬꼬꼮꼬꼮꼮꼮꼮꼮
-		groupService.deleteGroup(group);
-		System.out.println(group.toString());
-		return "실패";
+		return groupService.deleteGroup(group);
+		
 	}
 }

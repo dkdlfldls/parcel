@@ -15,7 +15,6 @@ import com.parcel.entity.User;
 import com.parcel.service.UserService;
 
 @Controller
-@SessionAttributes("userSession")
 public class UserController {
 	
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -47,18 +46,4 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping("")
-	public String getUser(HttpSession session, Model model) {
-		
-		int idx;
-		User user;
-		if(session.getAttribute("idx") == null) {
-			
-		} else {
-			idx = (int)session.getAttribute("idx");
-			model.addAttribute("user", user = userService.getUser(idx));
-		}
-		
-		return null;
-	}
 }

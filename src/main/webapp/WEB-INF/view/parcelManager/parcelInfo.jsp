@@ -14,29 +14,33 @@
 
 <script type="text/javascript">
 
+
+var popover_hide_function = function(){
+	$("[data-toggle=popover]").popover("hide");
+}
+
+var group_delete_request = function() {
+	$.ajax({
+		url : "/parcel_service/group/deleteGroup",
+		contentType : "application/json",
+		type : "post",
+		data : JSON.stringify({
+			idx : "${group.idx}",
+			pw : $("#check_pw_for_group_delete").val()
+		}),
+		success : function(data, status) {
+			alert(data);
+		}
+	});
+}
+
 $(function(){
-	$("#delete_group").click(function(){
-		//우선 팝업을 띄워서 비밀번호부터 입력하고 맞으면 다음으로 진행 틀리면 ㅂㅂ해야겠다.
-		
-		
-			$.ajax({
-				url : "/parcel_service/group/deleteGroup",
-				contentType : "application/json",
-				type : "post",
-				data : JSON.stringify({
-					idx : "${group.idx}",
-					pw : "${group.pw}"
-				}),
-				success : function(data, status) {
-					if (data == "실패") {
-						alert("그룹삭제에 실패하였습니다");
-					} else {
-						alert("그룹을 삭제하였습니다.");
-						location.href="";
-					}
-				}
-			});
-	})
+	
+	$("[data-toggle=popover]").popover({
+	     html : true,
+	     content: $("#popover_content").html()
+	 });
+	
 })
 
 </script>
@@ -91,7 +95,10 @@ $(function(){
 						그룹 없음
 					</c:if>
 					<c:if test="${hasGroup eq true}">
-						<input type="button" value="그룹 없애기" id="delete_group"><br/>
+						<input type="button" id="delete_group" 
+							data-toggle="popover" title="그룹 없애기 확인" value="그룹 없애기"
+							data-content="" html="true"><br/>
+						<!--  <input type="button" value="그룹 없애기" id="delete_group"><br/>-->
 						그룹명 : ${group.group_name }<br/>
 						pw : ${group.pw }<br/>
 						code : ${group.code }<br/>
@@ -120,5 +127,15 @@ $(function(){
 </div>
 
 <jsp:include page="../include/group_add_modal.jsp"></jsp:include>
+<div style="display: none;" id="popover_content">
+		<div class="form-group">
+			<label for="machine_code">택배함 비밀번호 확인 :</label> 
+			<input type="password" class="form-control" id="check_pw_for_group_delete">
+		</div>
+		<div>
+			<input type="button" class="btn btn-info" value="그룹 삭제" onclick="group_delete_request()">
+			<input type="button" class="btn btn-danger" value="삭제 취소" onclick="popover_hide_function()">
+		</div>
+</div>
 </body>
 </html>

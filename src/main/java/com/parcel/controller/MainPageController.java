@@ -34,29 +34,18 @@ public class MainPageController {
 	
 	@RequestMapping("/main")
 	public String getMainPage(HttpSession session, Model model) {
-		int idx;
-		
-		if (session.getAttribute("idx") != null) {
-			idx = (int) session.getAttribute("idx");
-			model.addAttribute("userEntity", userService.getMainPageEntityForUserInfo(idx));  //요놈 가능하다면 aop로 빼버려야 겠다.
-			model.addAttribute("listEntity", userService.getMainPageEntityList(idx));
-			return "/main/main";
-		} else {
-			return "../index";
-		}
+		int idx = (int) session.getAttribute("idx");
+		model.addAttribute("listEntity", userService.getMainPageEntityList(idx));
+		return "/main/main";
 		
 	}
 	
-	@RequestMapping("join")
+	@RequestMapping("/join")
 	public String getJoinPage() {
 		return "/user/join";
 	}
 	
-	@RequestMapping("/parcelInfo")
-	public String getParcelInfo() {
-		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만
-		return "/parcelManager/parcelInfo";
-	}
+	
 	@RequestMapping("/groupInfo")
 	public String getGroupInfo() {
 		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만

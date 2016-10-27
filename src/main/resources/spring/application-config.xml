@@ -18,6 +18,7 @@
 	<context:component-scan base-package="com.parcel.config"></context:component-scan>
 	<context:component-scan base-package="com.parcel.entity"></context:component-scan>
 	<context:component-scan base-package="com.parcel.util"></context:component-scan>
+	<context:component-scan base-package="com.parcel.aop"></context:component-scan>
 <!--  
 	<jdbc:embedded-database id="dataSource" type="H2">
 		<jdbc:script location="classpath:embedded/schema.sql"/>
@@ -27,9 +28,12 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost:3306/parcel"></property>
 		<property name="username" value="root"></property>
-		<property name="password" value="rapa"></property>
+		<property name="password" value="6255dkfls"></property>
 		<property name="connectionProperties" value="useSSL=false"></property>
 	</bean>
+	
+	<aop:aspectj-autoproxy/>
+	<bean id="methodTracker" class="com.parcel.aop.MethodTracker"/>
 	
 	<tx:annotation-driven/>
 	

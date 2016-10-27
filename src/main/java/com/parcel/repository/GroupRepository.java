@@ -13,6 +13,9 @@ public interface GroupRepository {
 	public Group findGroupByCode(String code);
 	public int insertGroup(Group group);
 	public int insertGroupMember(GroupMember member);
+	public boolean isValidPw(Group group);
+	public int deleteGroupMemberByGroup(int idx) throws Exception;
+	public int deleteGroupByIdx(int idx) throws Exception;
 	
 	
 }
