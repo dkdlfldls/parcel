@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	var checkMessage = function(num) {
 		$.ajax({
-			url : "/parcel_service/message/check",
+			url : "check",
 			contentType: "application/json",
 			type : "post",
 			data : JSON.stringify({

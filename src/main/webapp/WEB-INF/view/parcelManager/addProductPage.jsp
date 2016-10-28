@@ -34,7 +34,7 @@ $(function(){
 		//2.ajax처리
 		//성공시 화면 이동 실패시 실패원인 alert
 		$.ajax({
-					url: "/parcel_service/product/addProduct",
+					url: "addProduct",
 					contentType: "application/json",
 					type : "post",
 					data : JSON.stringify({
@@ -45,7 +45,7 @@ $(function(){
 					success: function(data, status){
 						if (data == "등록 완료") {
 							alert("등록이 완료되었습니다.");
-							location.href="/parcel_service/main";
+							location.href="../main";
 						} else {
 							alert(data);
 							return;
@@ -93,6 +93,7 @@ $(function(){
 									<label for="public_name">사용할 택배함 이름:</label> <input type="text" class="form-control" id="public_name">
 								</div>
 								<button type="button" class="btn btn-default" id="addProduct">추가하기</button>
+								<a href="../main" type="button" class="btn btn-default" id="addProduct">돌아가기</a>
 							</form>
 
 

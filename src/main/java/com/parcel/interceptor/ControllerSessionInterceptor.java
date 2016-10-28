@@ -21,7 +21,7 @@ public class ControllerSessionInterceptor extends HandlerInterceptorAdapter {
 		try {
 			//세션에 idx 없으면 index로
 			if(request.getSession().getAttribute("idx") == null ){
-					response.sendRedirect("/parcel_service/");	
+					response.sendRedirect("/");	
 					return false;
 			}
 			int idx = (int)request.getSession().getAttribute("idx");

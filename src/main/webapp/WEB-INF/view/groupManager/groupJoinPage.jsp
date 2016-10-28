@@ -54,7 +54,7 @@ var validate = function(){
 		<div class="row">
 			<div class="col-sm-9"><!-- 메인정보 -->
 					<br/>
-					<form action="/parcel_service/group/joinGroup" method="post" onsubmit="return validate()">
+					<form action="joinGroup" method="post" onsubmit="return validate()">
 						<div class="form-group">
 							<label for="code">그룹 코드: </label>&nbsp;&nbsp;<label id="wordCnt">0자</label>
 							<input type="text" class="form-control" id="code" name="code" autocomplete="off" placeholder="그룹 코드 영소문자 45글자">
@@ -65,7 +65,7 @@ var validate = function(){
 						</div>
 						<div class="form-group right-align">
 							<button type="submit" class="btn btn-default">가입하기</button>
-							<a href="/parcel_service/main" class="btn btn-default">돌아가기</a>
+							<a href="../main" class="btn btn-default">돌아가기</a>
 						</div>
 					</form>
 				</div>

@@ -40,7 +40,7 @@
 								<tr>
 									<td>${status.count }.</td>
 									<td class="main-name">
-										<a href="/parcel_service/product/getProductInfo?pidx=${i.pidx }">${i.pname }</a>
+										<a href="product/getProductInfo?pidx=${i.pidx }">${i.pname }</a>
 									</td>
 									<td>
 										<c:if test="${i.countg eq 0 }">그룹 없음</c:if>
@@ -67,8 +67,8 @@
 					<div class="panel panel-success">
 							<div class="panel-heading">빠른 메뉴</div>
 							<div class="panel-body">
-								<a href="/parcel_service/product/addPage">택배함 등록하기</a><br/>
-								<a href="/parcel_service/group/joinGroup">다른 그룹에 가입</a><br/>
+								<a href="product/addPage">택배함 등록하기</a><br/>
+								<a href="group/joinGroup">다른 그룹에 가입</a><br/>
 								선택한 택배함 그룹 열기<br/>
 								선택한 택배함 그룹 닫기
 							</div>

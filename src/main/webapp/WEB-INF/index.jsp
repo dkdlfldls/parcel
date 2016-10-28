@@ -12,24 +12,43 @@
 
 <script type="text/javascript">
 
-$(function(){
-	
-	$("#join").click(function(){
-		location.href="join";
-	})
-	
-});
+
 
 </script>
 
 </head>
 <body>
 	<h1>login page</h1>
-	<form action="/parcel_service/user/login" method="post">
-		<label>id</label><input type="text" name="id" autocomplete="off" placeholder="id"><br/>
-		<label>pw</label><input type="password" name="pw" placeholder="pw"><br/>
-		<input type="submit" value="로그인"><input type="button" id="join" value="가입">
-	</form>
+
+	
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+			<div style="width: 100px"></div>
+				<h1>login page</h1>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<form action="user/login" method="post">
+							<div class="form-group">
+								<label>id</label><input type="text" name="id" autocomplete="off" placeholder="id" class="form-control"><br/>		
+							</div>
+							<div class="form-group">
+								<label>pw</label><input type="password" name="pw" placeholder="pw"><br/>
+								<input type="submit" class="btn btn-default" value="로그인">
+								<a href="join" class="btn btn-default form-control">가입</a>
+							</div>
+						</form>
+					</div>
+					<div class="col-sm-2"></div>
+				
+				</div>
+			
+		</div>
+		<div class="col-sm-2"></div>
+	
+	
+	</div>
 	
 </body>
 </html>

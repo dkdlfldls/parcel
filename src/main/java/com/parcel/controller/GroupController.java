@@ -62,7 +62,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/joinGroup")
-	public String getJoinGroupPage(@RequestParam(name="msg") String msg, Model model) {
+	public String getJoinGroupPage(@RequestParam(name="msg", required=false) String msg, Model model) {
 		
 		if (msg != null) {
 			model.addAttribute("msg", msg);

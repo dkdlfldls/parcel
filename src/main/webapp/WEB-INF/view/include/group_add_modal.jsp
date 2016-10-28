@@ -53,7 +53,7 @@
 	$(function() {
 		$("#take_group_code").click(function() {
 			$.ajax({
-				url : "/parcel_service/group/makeGroupCode",
+				url : "../group/makeGroupCode",
 				contentType : "application/json",
 				type : "post",
 				success : function(data, status) {
@@ -71,19 +71,19 @@
 			var pw_pattern = /^[a-z0-9]{1,30}/g;
 			var code_pattern = /^[a-z]{45}$/;
 			
-			if (!group_name_pattern.test()) {
+			if (!group_name_pattern.test($("#group_name").val())) {
 				alert("그룹 이름 입력이 잘못되었습니다.");
 				return;
-			} else if(!pw_pattern.test()) {
+			} else if(!pw_pattern.test($("#pw").val())) {
 				alert("비밀번호 입력이 잘못되었습니다.");
 				return;
-			} else if(!code_pattern.test()) {
+			} else if(!code_pattern.test($("#code").val())) {
 				alert("코드 받기 버튼을 눌러주세요");
 				return;
 			}
 			
 			$.ajax({
-				url : "/parcel_service/group/addGroup",
+				url : "../group/addGroup",
 				contentType : "application/json",
 				type : "post",
 				data : JSON.stringify({

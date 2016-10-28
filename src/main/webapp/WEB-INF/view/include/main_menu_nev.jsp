@@ -5,9 +5,9 @@
 			<a class="navbar-brand" href="#">택배함 관리</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="/parcel_service/main">Home</a></li>
-			<li><a href="/parcel_service/groupInfo">그룹 관리</a></li>
-			<li><a href="/parcel_service/message/info">메시지 관리</a></li>
+			<li><a href="/main">Home</a></li>
+			<li><a href="/groupInfo">그룹 관리</a></li>
+			<li><a href="/message/info">메시지 관리</a></li>
 			<li><a href="#">개인정보 관리</a></li>
 		</ul>
 	</div>

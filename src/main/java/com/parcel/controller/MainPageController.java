@@ -31,6 +31,11 @@ public class MainPageController {
 		}
 		
 	}
+	@RequestMapping("/login")
+	public String getIndexPage() {
+		
+		return "../index";
+	}
 	
 	@RequestMapping("/main")
 	public String getMainPage(HttpSession session, Model model) {

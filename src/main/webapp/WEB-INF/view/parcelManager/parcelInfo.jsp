@@ -21,7 +21,7 @@ var popover_hide_function = function(){
 
 var group_delete_request = function() {
 	$.ajax({
-		url : "/parcel_service/group/deleteGroup",
+		url : "../group/deleteGroup",
 		contentType : "application/json",
 		type : "post",
 		data : JSON.stringify({
@@ -51,10 +51,9 @@ $(function(){
 	
 	
 	$("#do_lock").click(function(){
-		alert("do lock");
 		//1. ajax로 잠그기 요청 (자신idx, product idx 전송)
 		$.ajax({
-			url : "/parcel_service/product/lock",
+			url : "lock",
 			contentType: "application/json",
 			type : "post",
 			data : JSON.stringify({
@@ -75,10 +74,9 @@ $(function(){
 		//2.잘 잠겼다고 답 오면 페이지 재접속
 	});
 	$("#do_open").click(function(){
-		alert("do open");
 		//1. ajax로 열기 요청 (자신idx, product idx 전송)
 		$.ajax({
-			url : "/parcel_service/product/open",
+			url : "open",
 			contentType : "application/json",
 			type : "post",
 			data : JSON.stringify({
