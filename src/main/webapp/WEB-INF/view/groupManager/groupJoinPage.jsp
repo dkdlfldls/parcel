@@ -16,7 +16,27 @@ $(function(){
 		alert("${msg}");
 	}
 	
+	$("#code").change(function(){
+		$("#wordCnt").text($("#code").val().length + "자");
+		
+	});
+	
 });
+
+var validate = function(){
+	var pw_pattern = /^[a-z0-9]{1,30}/g;
+	var code_pattern = /^[a-z]{45}$/;
+	
+	if(!code_pattern.test($("#code").val())) {
+		alert("45자의 영소문자 코드를 입력해야합니다.");
+		return false;	
+	} else if(!pw_pattern.test($("#pw").val())) {
+		alert("비밀번호 입력이 잘못되었습니다.");
+		return false;
+	} else {
+		return true;
+	}
+}
 
 </script>
 
@@ -34,14 +54,14 @@ $(function(){
 		<div class="row">
 			<div class="col-sm-9"><!-- 메인정보 -->
 					<br/>
-					<form action="/parcel_service/group/joinGroup" method="post">
+					<form action="/parcel_service/group/joinGroup" method="post" onsubmit="return validate()">
 						<div class="form-group">
-							<label for="code">그룹 코드:</label> 
-							<input type="text" class="form-control" id="code" name="code" autocomplete="off" placeholder="그룹 코드">
+							<label for="code">그룹 코드: </label>&nbsp;&nbsp;<label id="wordCnt">0자</label>
+							<input type="text" class="form-control" id="code" name="code" autocomplete="off" placeholder="그룹 코드 영소문자 45글자">
 						</div>
 						<div class="form-group">
 							<label for="pw">그룹 비밀번호:</label> 
-							<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
+							<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호 영소문자/숫자 1~30자">
 						</div>
 						<div class="form-group right-align">
 							<button type="submit" class="btn btn-default">가입하기</button>

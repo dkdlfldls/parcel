@@ -27,9 +27,9 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public boolean join(User user) {
 		logger.info("UserRepository join process");
-		String sql = "INSERT INTO user (id, pw, phone, email) values(?,?,?,?)";
+		String sql = "INSERT INTO user (id, pw, phone, email, name) values(?,?,?,?,?)";
 		try {
-			t.update(sql, user.getId(), user.getPw(), user.getPhone(), user.getEmail());
+			t.update(sql, user.getId(), user.getPw(), user.getPhone(), user.getEmail(), user.getName());
 			return true;
 		} catch(Exception e) {
 			return false;

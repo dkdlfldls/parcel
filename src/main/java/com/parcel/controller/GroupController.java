@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.parcel.entity.Group;
 import com.parcel.service.GroupService;
@@ -60,21 +62,25 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/joinGroup")
-	public String getJoinGroupPage() {
+	public String getJoinGroupPage(@RequestParam(name="msg") String msg, Model model) {
+		
+		if (msg != null) {
+			model.addAttribute("msg", msg);
+		}
 		
 		return "/groupManager/groupJoinPage";
 	}
 	
 	@RequestMapping(value="/group/joinGroup", method=RequestMethod.POST)
-	public String joinGroup(String code, String pw, Model model, HttpSession session) {
+	public String joinGroup(String code, String pw,  HttpSession session, RedirectAttributes model) {
 		System.out.println(code);
 		System.out.println(pw);
 		
 		if (groupService.joinGroup(code, pw, (int)session.getAttribute("idx"))) {
 			return "redirect:/main";
 		} else {
-			model.addAttribute("msg", "입력정보 및 중복가입 인지 확인하세요");
-			return "/groupManager/groupJoinPage";
+			model.addAttribute("msg", "check your input");
+			return "redirect:";
 		}
 		
 		

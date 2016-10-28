@@ -19,6 +19,7 @@ $(function(){
 		// 일단 machine이 0이면 안된다.
 		// public_name을 한영숫자 이정도로 글자수제한 먹여주도록 하자.
 		var pattern = /^[\sA-Za-z가-힣0-9]{2,30}/g;
+		var codePattern = /^[a-z0-9]{1,45}/g;
 		console.log(pattern.test($("#public_name").val()));
 		if ($("#machine").val() == 0) {
 			alert("택배함 종류를 항목에서 선택하여 주세요");
@@ -26,8 +27,8 @@ $(function(){
 		}else if( pattern.test(  $("#public_name").val() == false  )  ) {
 			alert("한글, 영문자, 숫자, 띄어쓰기를 사용하며 2에서 30글자 사이로 작성하여 주세요");
 			return;
-		}else if ( $("#machine_code").val() == "" ) {
-			alert("택배함 코드를 입력하세요");
+		}else if (!codePattern.test($("#machine_code").val())) {
+			alert("택배함 고유코드를 입력하세요");
 			return;
 		}
 		//2.ajax처리
