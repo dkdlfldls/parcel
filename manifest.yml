@@ -1,0 +1,11 @@
+---
+applications:
+  - name: parcel_service
+    memory: 1024M
+    instances: 1
+    host: parcel_service
+    domain: cfapps.io
+    path: target/parcel_service-0.0.1-SNAPSHOT.war
+    buildpack: java_buildpack
+    
+    
