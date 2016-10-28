@@ -31,6 +31,7 @@
 								<th></th>
 								<th>택배함 이름</th>
 								<th>공동 사용자 수</th>
+								<th>택배함 주인</th>
 								<th>현재 개폐여부</th>
 							</tr>
 						</thead>
@@ -44,6 +45,9 @@
 									<td>
 										<c:if test="${i.countg eq 0 }">그룹 없음</c:if>
 										<c:if test="${i.countg ne 0 }">${i.countg }</c:if>
+									</td>
+									<td>
+										${i.name }
 									</td>
 									<td>
 										<c:if test="${i.isopen eq 0}">사용가능</c:if>
@@ -64,6 +68,7 @@
 							<div class="panel-heading">빠른 메뉴</div>
 							<div class="panel-body">
 								<a href="/parcel_service/product/addPage">택배함 등록하기</a><br/>
+								<a href="/parcel_service/group/joinGroup">다른 그룹에 가입</a><br/>
 								선택한 택배함 그룹 열기<br/>
 								선택한 택배함 그룹 닫기
 							</div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.parcel.entity.Group;
 import com.parcel.entity.Product;
+import com.parcel.entity.User;
 import com.parcel.service.GroupService;
 import com.parcel.service.ProductService;
 
@@ -65,6 +66,32 @@ public class ProductController {
 		 */
 		
 		return "/parcelManager/parcelInfo";
+	}
+	
+	@RequestMapping(value="/product/lock",  method=RequestMethod.POST)
+	@ResponseBody
+	public boolean lock(@RequestBody User user) {
+		
+		System.out.println("@@@@@@@@@@" + user.toString());
+		
+		if (productService.lock(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@RequestMapping(value="/product/open",  method=RequestMethod.POST)
+	@ResponseBody
+	public boolean open(@RequestBody User user) {
+		System.out.println("@@@@@@@@@@" + user.toString());
+		if (productService.open(user)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+		
 	}
 	
 	

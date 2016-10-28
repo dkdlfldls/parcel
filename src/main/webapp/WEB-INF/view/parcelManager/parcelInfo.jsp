@@ -29,7 +29,15 @@ var group_delete_request = function() {
 			pw : $("#check_pw_for_group_delete").val()
 		}),
 		success : function(data, status) {
-			alert(data);
+			if (data == 2) {
+				alert("그룹을 삭제하였습니다.");
+				location.href= "";
+				
+			} else if (data == 1) {
+				alert("에러가 발생하였습니다.");
+			} else {
+				alert("비밀번호를 잘못 입력하였습니다.");
+			}
 		}
 	});
 }
@@ -41,8 +49,57 @@ $(function(){
 	     content: $("#popover_content").html()
 	 });
 	
-})
+	
+	$("#do_lock").click(function(){
+		alert("do lock");
+		//1. ajax로 잠그기 요청 (자신idx, product idx 전송)
+		$.ajax({
+			url : "/parcel_service/product/lock",
+			contentType: "application/json",
+			type : "post",
+			data : JSON.stringify({
+				idx : "${userEntity.idx}",
+				productIdx : "${product.idx}",
+				hasGroup : "${hasGroup}",
+				productName : "${product.public_name }"
+			}),
+			success: function(data, status){
+				if (data == true) {
+					alert("잠그기 성공");
+					location.href="";
+				} else {
+					alert("잠그기 실패");
+				}
+			}
+		});
+		//2.잘 잠겼다고 답 오면 페이지 재접속
+	});
+	$("#do_open").click(function(){
+		alert("do open");
+		//1. ajax로 열기 요청 (자신idx, product idx 전송)
+		$.ajax({
+			url : "/parcel_service/product/open",
+			contentType : "application/json",
+			type : "post",
+			data : JSON.stringify({
+				idx : "${userEntity.idx}",
+				productIdx : "${product.idx}",
+				hasGroup : "${hasGroup}",
+				productName : "${product.public_name }"
+			}),
+			success : function(data, status) {
+				if (data == true) {
+					alert("열기 성공");
+					location.href="";
+				} else {
+					alert("열기 실패");
+				}
+			}
+		});
+			//2.잘 열렸다고 답 오면 페이지 재접속
+		});
 
+	})
 </script>
 
 </head>
@@ -95,10 +152,14 @@ $(function(){
 						그룹 없음
 					</c:if>
 					<c:if test="${hasGroup eq true}">
-						<input type="button" id="delete_group" 
-							data-toggle="popover" title="그룹 없애기 확인" value="그룹 없애기"
-							data-content="" html="true"><br/>
-						<!--  <input type="button" value="그룹 없애기" id="delete_group"><br/>-->
+						<c:if test="${product.registrant_name eq userEntity.name}">
+							<input type="button" id="delete_group" class="btn btn-info"
+								data-toggle="popover" title="그룹 없애기 확인" value="그룹 없애기"
+								data-content="" html="true">
+						</c:if>
+						<c:if test="${product.is_open eq 0 }"><input type="button" id="do_lock" class="btn btn-info" value="잠그기"></c:if>
+						<c:if test="${product.is_open ne 0 }"><input type="button" id="do_open" class="btn btn-info" value="열기"></c:if>
+						<br/>
 						그룹명 : ${group.group_name }<br/>
 						pw : ${group.pw }<br/>
 						code : ${group.code }<br/>

@@ -46,6 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
 			return temp.getIdx();
 		} catch(Exception e) {
 			logger.error("login fail in UserRepository login process");
+			e.printStackTrace();
 			return INT_NULL;
 		}
 		
@@ -55,9 +56,19 @@ public class UserRepositoryImpl implements UserRepository {
 	public User getUser(int idx) {
 		logger.info("UserRepository getUser process");
 		String sql = "SELECT * FROM user WHERE idx=? AND state=1";
-		User temp;
 		try {
-			return temp = t.queryForObject(sql, User.class, idx);
+			return t.queryForObject(sql, (rs, no)->{
+				User temp = new User();
+				temp.setIdx(rs.getInt(1));
+				temp.setId(rs.getString(2));
+				temp.setPw(rs.getString(3));
+				temp.setPhone(rs.getString(4));
+				temp.setEmail(rs.getString(5));
+				temp.setWeb_authority(rs.getInt(6));
+				temp.setState(rs.getInt(7));
+				temp.setName(rs.getString(8));
+				return temp;
+			}, idx);
 		} catch (Exception e) {
 			return null;
 		}
@@ -67,11 +78,12 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public List<MainPageEntity> getMainPageEntityList(int idx) {
 		logger.info("UserRepository getMainPageEntityList process");
-		String sql = "SELECT p.public_name as pname, p.is_open as isopen, "
-				+ "(SELECT count(gm.idx) FROM user_group ug, group_member gm WHERE ug.product = p.idx AND ug.idx=gm.group) as countg "
-				+ ",p.idx as pidx "
-				+ "FROM product p " 
-				+ "WHERE p.registrant=?";
+		String sql = "SELECT p.public_name as pname, p.is_open as isopen, (SELECT count(gm.idx) FROM user_group ug, group_member gm WHERE ug.product = p.idx AND ug.idx=gm.group) as countg, p.idx as pidx, u.name "    
+				+ "FROM product p, user u " 
+				+ "WHERE (p.idx in (SELECT ug.product FROM user_group ug WHERE ug.idx in (SELECT gm.group FROM parcel.group_member gm WHERE gm.member=?)) OR p.registrant=?) AND u.idx=p.registrant";
+		
+		//자기 택배함 은 물론 다른 사람의 택배함 그룹도 나와야한다.
+		
 		try {
 			return t.query(sql, (rs,no)->{
 				MainPageEntity temp = new MainPageEntity();
@@ -79,8 +91,9 @@ public class UserRepositoryImpl implements UserRepository {
 				temp.setIsopen(rs.getInt(2));
 				temp.setCountg(rs.getInt(3));
 				temp.setPidx(rs.getInt(4));
+				temp.setName(rs.getString(5));
 				return temp;
-			}, idx);
+			}, idx, idx);
 		} catch(Exception e) {
 			return null;
 		}
@@ -91,7 +104,7 @@ public class UserRepositoryImpl implements UserRepository {
 	public MainPageEntity getMainPageEntityForUserInfo(int idx) {
 		// TODO Auto-generated method stub
 		logger.info("UserRepository getMainPageEntityForUserInfo process");
-		String sql = "SELECT u.name, count(m.idx) as countm " +  
+		String sql = "SELECT u.name, count(m.idx) as countm, u.idx " +  
 				"FROM user u, message m " +   
 				"WHERE u.idx=? AND u.idx=m.receiver AND m.show=0 AND u.state=1";
 		try {
@@ -99,6 +112,7 @@ public class UserRepositoryImpl implements UserRepository {
 					MainPageEntity m = new MainPageEntity();
 					m.setName(rs.getString(1));
 					m.setCountm(rs.getInt(2));
+					m.setIdx(rs.getInt(3));
 					return m;
 				} ,idx);
 			

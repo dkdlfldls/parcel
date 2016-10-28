@@ -50,7 +50,9 @@
 			<mvc:mapping path="/product/addProduct"/>
 			<mvc:mapping path="/product/addPage"/>
 			<mvc:mapping path="/group/makeGroupCode"/>
-			<mvc:mapping path="/group/makeGroupCode"/>
+			<mvc:mapping path="/group/joinGroup"/>
+			<mvc:mapping path="/message/info"/>
+			<mvc:mapping path="/message/check"/>
 			<bean class="com.parcel.interceptor.ControllerSessionInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

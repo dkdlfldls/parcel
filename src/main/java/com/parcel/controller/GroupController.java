@@ -4,10 +4,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.parcel.entity.Group;
@@ -56,6 +56,28 @@ public class GroupController {
 	public int deleteGroup(@RequestBody Group group, HttpSession session) {
 		//스프링 시큐리티로 꼭 사용자 확인 해줘야한다. 안그러면 그냥 삭제 막 할 수 있다.ㄲ꼬꼬꼬꼬꼮꼬꼮꼮꼮꼮꼮
 		return groupService.deleteGroup(group);
+		
+	}
+	
+	@RequestMapping("/group/joinGroup")
+	public String getJoinGroupPage() {
+		
+		return "/groupManager/groupJoinPage";
+	}
+	
+	@RequestMapping(value="/group/joinGroup", method=RequestMethod.POST)
+	public String joinGroup(String code, String pw, Model model, HttpSession session) {
+		System.out.println(code);
+		System.out.println(pw);
+		
+		if (groupService.joinGroup(code, pw, (int)session.getAttribute("idx"))) {
+			return "redirect:/main";
+		} else {
+			model.addAttribute("msg", "입력정보 및 중복가입 인지 확인하세요");
+			return "/groupManager/groupJoinPage";
+		}
+		
+		
 		
 	}
 }

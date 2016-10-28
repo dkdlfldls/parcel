@@ -40,7 +40,6 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return group;
 			}, pidx);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -48,19 +47,19 @@ public class GroupRepositoryImpl implements GroupRepository {
 
 	@Override
 	public List<User> findUserListByProductIdx(int pidx) {
+		System.out.println(pidx);
 		String sql ="SELECT u.name "
 				+ "FROM user u "
-				+ "WHERE u.idx = (SELECT gm.member FROM group_member gm WHERE gm.group=(SELECT ug.idx FROM user_group ug WHERE ug.product=?))";
+				+ "WHERE u.idx in (SELECT gm.member FROM group_member gm WHERE gm.group=(SELECT ug.idx FROM user_group ug WHERE ug.product=?))";
 		
 		try {
 			return t.query(sql, (rs, no)->{
 				User user = new User();
-				user.setname(rs.getString("name"));
+				user.setName(rs.getString("name"));
 				return user;
 			}, pidx);
 			
 		} catch(Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -83,7 +82,6 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return group;
 			}, code);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -127,7 +125,6 @@ public class GroupRepositoryImpl implements GroupRepository {
 				return g;
 			}, group.getIdx(), group.getPw());
 		} catch (Exception e) {
-			e.printStackTrace();
 			temp = null;
 		}
 		if (temp != null) {
@@ -148,6 +145,30 @@ public class GroupRepositoryImpl implements GroupRepository {
 	public int deleteGroupByIdx(int idx) throws Exception {
 		String sql = "DELETE FROM user_group WHERE idx=?";
 		return t.update(sql, idx);
+	}
+
+	@Override
+	public int insertGroupMemberByCodeAndPw(String code, String pw, int joiner) {
+		String sql = "INSERT INTO group_member (group_member.group, member) SELECT ug.idx as 'group', ? as member FROM user_group ug WHERE code=? AND pw=? ";
+		return t.update(sql, joiner, code, pw);
+	}
+
+	@Override
+	public GroupMember findGroupMemberByCodeAndMember(String code, int joiner) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM group_member gm WHERE gm.group = (SELECT ug.idx from user_group ug WHERE ug.code=?) AND gm.member = ?";
+		try {
+			return t.queryForObject(sql, (rs,no)->{
+				GroupMember gm = new GroupMember();
+				gm.setIdx(rs.getInt(1));
+				gm.setGroup(rs.getInt(2));
+				gm.setMember(rs.getInt(3));
+				gm.setState(rs.getInt(4));
+				return gm;
+			}, code, joiner);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

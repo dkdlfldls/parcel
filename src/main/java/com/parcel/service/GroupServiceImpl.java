@@ -103,4 +103,23 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 
+	@Override
+	public boolean joinGroup(String code, String pw, int joiner)  {
+		//가입을 확인한다 find메서드 뭐 써서 나오면 있는거니까
+		GroupMember member = groupRepository.findGroupMemberByCodeAndMember(code, joiner); 
+		if (member == null) {
+			int result = groupRepository.insertGroupMemberByCodeAndPw(code, pw, joiner);
+			//가입이 되어있는지도 확인을 해야하는구나....
+			if (result > 0 ) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		
+		
+	}
+
 }

@@ -16,6 +16,8 @@ public interface GroupRepository {
 	public boolean isValidPw(Group group);
 	public int deleteGroupMemberByGroup(int idx) throws Exception;
 	public int deleteGroupByIdx(int idx) throws Exception;
+	public int insertGroupMemberByCodeAndPw(String code, String pw, int joiner);
+	public GroupMember findGroupMemberByCodeAndMember(String code, int joiner);
 	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.parcel.entity.Machine;
 import com.parcel.entity.Product;
+import com.parcel.entity.User;
 
 public interface ProductService {
 	//public
@@ -11,4 +12,6 @@ public interface ProductService {
 	public List<Machine> getMachineList();
 	public String addProduct(Product product);
 	public Product getProductInfo(int pidx);
+	public boolean lock(User user);
+	public boolean open(User user);
 }

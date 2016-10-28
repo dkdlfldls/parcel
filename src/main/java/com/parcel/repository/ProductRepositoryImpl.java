@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.parcel.entity.Machine;
 import com.parcel.entity.Product;
+import com.parcel.service.ProductServiceImpl;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -89,6 +90,18 @@ public class ProductRepositoryImpl implements ProductRepository {
 		} catch (Exception e) {
 			return null;
 		}
+		
+	}
+
+	@Override
+	public int updateProductByIdxForLock(int productIdx, boolean lock) {
+		String sql;
+		if(lock == ProductServiceImpl.LOCK) { //잠가야함
+			sql = "UPDATE product SET is_open=1 WHERE idx=?";
+		} else { //열어야함
+			sql = "UPDATE product SET is_open=0 WHERE idx=?";
+		}
+		return t.update(sql, productIdx);
 		
 	}
 

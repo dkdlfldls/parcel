@@ -17,4 +17,6 @@ public interface ProductRepository {
 	
 	public Product getProductInfo(int pidx);
 
+	public int updateProductByIdxForLock(int productIdx, boolean lock);
+
 }
