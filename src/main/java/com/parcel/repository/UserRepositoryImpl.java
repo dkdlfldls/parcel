@@ -17,7 +17,7 @@ import com.parcel.entity.User;
 public class UserRepositoryImpl implements UserRepository {
 	private Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 	private JdbcTemplate t;
-	private final int INT_NULL = -1;
+	public static final int INT_NULL = -1;
 	
 	@Autowired
 	public UserRepositoryImpl(DataSource dataSource) {
@@ -32,6 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
 			t.update(sql, user.getId(), user.getPw(), user.getPhone(), user.getEmail(), user.getName());
 			return true;
 		} catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -120,6 +121,30 @@ public class UserRepositoryImpl implements UserRepository {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public User findUserById(String id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM user WHERE id=?";
+		//idx id pw phone email web_authority state name
+		try {
+			return t.queryForObject(sql, (rs, no)->{
+				User user = new User();
+				user.setIdx(rs.getInt("idx"));
+				user.setId(rs.getString("id"));
+				user.setPw(rs.getString("pw"));
+				user.setPhone(rs.getString("phone"));
+				user.setEmail(rs.getString("email"));
+				user.setWeb_authority(rs.getInt("web_authority"));
+				user.setState(rs.getInt("state"));
+				user.setName(rs.getString("name"));
+				return user;
+			}, id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.parcel.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.parcel.entity.GroupMember;
 import com.parcel.entity.User;
 import com.parcel.repository.GroupRepository;
 import com.parcel.util.CodeMaker;
+import com.parcel.util.DataSecurity;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -25,6 +27,9 @@ public class GroupServiceImpl implements GroupService {
 	
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	@Autowired
+	private DataSecurity dataSecurity;
 	
 	@Override
 	public Group getGroupInfoForProductInfo(int pidx) {
@@ -120,6 +125,26 @@ public class GroupServiceImpl implements GroupService {
 		}
 		
 		
+	}
+
+	@Override
+	public List<Group> getGroupList(int uidx) {
+		List<Group> list = groupRepository.findGroupListByUserIdx(uidx);
+		System.out.println(list);
+		if(list == null) {
+			return new ArrayList<Group>();
+		} else {
+			return list;
+		}
+	}
+
+	@Override
+	public boolean dropGroup(int gidx, int uidx) {
+		if (groupRepository.deleteGroupMemberByGroupAndUser(gidx, uidx) > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

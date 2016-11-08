@@ -53,6 +53,8 @@
 			<mvc:mapping path="/group/joinGroup"/>
 			<mvc:mapping path="/message/info"/>
 			<mvc:mapping path="/message/check"/>
+			<mvc:mapping path="/group/drop/{gidx}"/>
+			<mvc:mapping path="/groupInfo"/>
 			<bean class="com.parcel.interceptor.ControllerSessionInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

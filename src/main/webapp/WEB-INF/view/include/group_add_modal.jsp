@@ -93,7 +93,7 @@
 					product : "${product.idx}"
 				}),
 				success : function(data, status) {
-					if (data == "실패") {
+					if (data == "false") {
 						alert("그룹을 만드는데 실패하였습니다.")
 					} else {
 						alert("그룹을 만들었습니다");

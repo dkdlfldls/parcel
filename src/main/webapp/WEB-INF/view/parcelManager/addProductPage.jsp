@@ -18,8 +18,9 @@ $(function(){
 		//1. 예외처리? validation
 		// 일단 machine이 0이면 안된다.
 		// public_name을 한영숫자 이정도로 글자수제한 먹여주도록 하자.
-		var pattern = /^[\sA-Za-z가-힣0-9]{2,30}/g;
-		var codePattern = /^[a-z0-9]{1,45}/g;
+		
+		var pattern = /^[\sA-Za-z가-힣0-9]{2,30}/g; //한글, 영문자, 숫자, 띄어쓰기 2~30글자
+		var codePattern = /^[a-z0-9]{1,45}/g; //영소문자, 숫자 1~45글자
 		console.log(pattern.test($("#public_name").val()));
 		if ($("#machine").val() == 0) {
 			alert("택배함 종류를 항목에서 선택하여 주세요");
@@ -31,6 +32,7 @@ $(function(){
 			alert("택배함 고유코드를 입력하세요");
 			return;
 		}
+		
 		//2.ajax처리
 		//성공시 화면 이동 실패시 실패원인 alert
 		$.ajax({
@@ -87,10 +89,12 @@ $(function(){
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="machine_code">택배함 고유 코드:</label> <input type="text" class="form-control" id="machine_code">
+									<label for="machine_code">택배함 고유 코드:</label> 
+									<input type="text" class="form-control" id="machine_code" placeholder="영소문자, 숫자 1~45글자">
 								</div>
 								<div class="form-group">
-									<label for="public_name">사용할 택배함 이름:</label> <input type="text" class="form-control" id="public_name">
+									<label for="public_name">사용할 택배함 이름:</label> 
+									<input type="text" class="form-control" id="public_name" placeholder="한글, 영문자, 숫자, 띄어쓰기 2~30글자">
 								</div>
 								<button type="button" class="btn btn-default" id="addProduct">추가하기</button>
 								<a href="../main" type="button" class="btn btn-default" id="addProduct">돌아가기</a>

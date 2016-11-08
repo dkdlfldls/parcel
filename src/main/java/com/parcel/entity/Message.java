@@ -2,10 +2,12 @@ package com.parcel.entity;
 
 import java.sql.Timestamp;
 
+import org.hibernate.validator.constraints.Length;
+
 public class Message {
 	private int idx;
 	private int receiver;
-	private String message;
+	@Length(max=100) private String message; //100글자 이내
 	private Timestamp send_time;
 	private int state;
 	private int show;

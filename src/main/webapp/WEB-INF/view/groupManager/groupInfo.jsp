@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,20 +29,34 @@
 						<div class="panel-heading">
 							<ul class="list-group">
 								<li class="list-group-item group-info-list">
-									<table class="table table-bordered group-info-table">
+									<table class="table table-hover group-info-table">
+										<thead>
+											<tr >
+												<th class="middle-align"></th>
+												<th class="middle-align">그룹 이름</th>
+												<th class="middle-align">택배함 이름</th>
+												<th class="middle-align">택배함 주인</th>
+												<th class="middle-align">그룹 인원 수</th>
+												<th class="middle-align"></th>
+											</tr>
+										</thead>
 										<tbody>
-											<tr>
-												<td>그룹 이름 : 그룹 1</td>
-												<td>정보</td>
-												<td>관계</td>
-												<td>그룹 제거</td>
-											</tr>
-											<tr>
-												<td>그룹 이름 : 그룹 2</td>
-												<td>정보</td>
-												<td>관계</td>
-												<td>그룹 제거</td>
-											</tr>
+											<c:forEach var="i" varStatus="status" items="${groupList}">
+												<tr class="middle-align">
+													<td>${status.count }</td>
+													<td>
+														<a href="product/getProductInfo?pidx=${i.product }">${i.group_name }</a>
+													</td>
+													<td>${i.productName }</td>
+													<td>${i.managerName }</td>
+													<td>${i.groupMemberCnt }명</td>
+													<td>
+														<c:if test="${i.manager eq userEntity.idx}">내 그룹</c:if>
+														<c:if test="${i.manager ne userEntity.idx}"><a href="group/drop/${i.idx }">그룹 나가기</a></c:if>
+														
+													</td>
+												</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 								</li>
@@ -51,14 +66,7 @@
 				</div>
 				<div class="col-sm-3">
 				<div><!-- 사용자 메뉴 -->
-						<div class="panel panel-info">
-							<div class="panel-heading">로그인 정보</div>
-							<div class="panel-body">
-								이름 : 홍길동<br/>
-								메시지 : 5건<br/>
-								로그아웃하기
-							</div>
-						</div>
+						<jsp:include page="../include/simpleUserInfo.jsp"></jsp:include>
 				</div>
 			</div>
 		</div>

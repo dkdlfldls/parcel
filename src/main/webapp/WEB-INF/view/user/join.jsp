@@ -10,7 +10,6 @@
 <script type="text/javascript">
 
 var validate = function(){
-	
 	var idPattern = /^[A-Za-z0-9]{1,20}/g; 
 	var pwPattern = /^[A-Za-z0-9]{1,20}/g;
 	var namePattern = /^[A-Za-z가-힣]{1,30}/g;

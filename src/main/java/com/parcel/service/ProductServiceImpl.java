@@ -56,7 +56,6 @@ public class ProductServiceImpl implements ProductService{
 				//등록 시작
 				int result = productRepository.updateProduct(product);
 				if (result > 0 ) {
-					//등록이 됬으면 멤버로 자기자신을 추가해야한다. ㄴㄴ 그룹이 추가되면 자기자신을 추가하도록
 					return "등록 완료";
 				} else {
 					return "입력 정보를 확인하여 주세요";

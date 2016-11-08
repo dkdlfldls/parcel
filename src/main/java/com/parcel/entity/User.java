@@ -1,19 +1,22 @@
 package com.parcel.entity;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
 
 public class User {
 	
 	private int idx;
-	private String id;
-	private String pw;
-	private String phone;
-	private String email;
+	@Pattern(regexp="[A-Za-z0-9]{1,20}") private String id; //영문,숫자 1~20글자
+	@Pattern(regexp="[A-Za-z0-9]{1,20}") private String pw; //영문,숫자 1~20글자
+	@Pattern(regexp="^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}") private String phone; // xx-xxxx-xxxx
+	@Email private String email; //email
 	private int web_authority;
 	private int state;
-	private String name;
+	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String name; //영문자, 숫자 1~20글자
 	private int productIdx;
 	private boolean hasGroup;
-	private String productName;
+	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String productName; //영문자, 숫자 1~45글자
 
 	public User(int idx, String id, String pw, String phone, String email, int web_authority, int state) {
 		super();

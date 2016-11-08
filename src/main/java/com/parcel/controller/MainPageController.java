@@ -51,9 +51,5 @@ public class MainPageController {
 	}
 	
 	
-	@RequestMapping("/groupInfo")
-	public String getGroupInfo() {
-		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만
-		return "/groupManager/groupInfo";
-	}
+
 }

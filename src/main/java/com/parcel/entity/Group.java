@@ -2,15 +2,21 @@ package com.parcel.entity;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
 public class Group {
+	
 	private int idx;
-	private String group_name;
+	@Pattern(regexp="^[\\sA-Za-z가-힣0-9]{1,30}") private String group_name; //띄어쓰기, 영문자, 한글, 숫자 1~30글자
 	private int manager;
 	private int product;
 	private int state;
 	private List<User> groupUserList;
-	private String pw;
-	private String code;
+	@Pattern(regexp="^[a-z0-9]{1,30}") private String pw;
+	@Pattern(regexp="^[a-z]{45}$") private String code; //영문 숫자 45글자
+	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String managerName; //영문자, 숫자 1~20글자
+	@Pattern(regexp="^[\\sA-Za-z가-힣0-9]{2,30}") private String productName;//띄어쓰기, 영문자, 한글, 숫자 2~30글자
+	private int groupMemberCnt;
 	
 	public int getIdx() {
 		return idx;
@@ -61,6 +67,26 @@ public class Group {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public int getGroupMemberCnt() {
+		return groupMemberCnt;
+	}
+	public void setGroupMemberCnt(int groupMemberCnt) {
+		this.groupMemberCnt = groupMemberCnt;
+	}
 	public Group() {
 		
 	}
@@ -76,16 +102,31 @@ public class Group {
 		this.pw = pw;
 		this.code = code;
 	}
+	
+	
+	
+	public Group(int idx, String group_name, int manager, int product, int state, List<User> groupUserList, String pw,
+			String code, String managerName, String productName, int groupMemberCnt) {
+		super();
+		this.idx = idx;
+		this.group_name = group_name;
+		this.manager = manager;
+		this.product = product;
+		this.state = state;
+		this.groupUserList = groupUserList;
+		this.pw = pw;
+		this.code = code;
+		this.managerName = managerName;
+		this.productName = productName;
+		this.groupMemberCnt = groupMemberCnt;
+	}
 	@Override
 	public String toString() {
 		return "Group [idx=" + idx + ", group_name=" + group_name + ", manager=" + manager + ", product=" + product
-				+ ", state=" + state + ", groupUserList=" + groupUserList + ", pw=" + pw + ", code=" + code + "]";
+				+ ", state=" + state + ", groupUserList=" + groupUserList + ", pw=" + pw + ", code=" + code
+				+ ", managerName=" + managerName + ", productName=" + productName + ", groupMemberCnt=" + groupMemberCnt
+				+ "]";
 	}
-	
-	
-	
-	
-	
 	
 
 }

@@ -18,6 +18,8 @@ public interface GroupRepository {
 	public int deleteGroupByIdx(int idx) throws Exception;
 	public int insertGroupMemberByCodeAndPw(String code, String pw, int joiner);
 	public GroupMember findGroupMemberByCodeAndMember(String code, int joiner);
+	public List<Group> findGroupListByUserIdx(int uidx);
+	public int deleteGroupMemberByGroupAndUser(int gidx, int uidx);
 	
 	
 }

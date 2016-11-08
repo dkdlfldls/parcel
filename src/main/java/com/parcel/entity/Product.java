@@ -2,17 +2,19 @@ package com.parcel.entity;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.Pattern;
+
 public class Product {
 	private int idx;
 	private int machine;
-	private String machine_code;
+	@Pattern(regexp="^[a-z]{45}$") private String machine_code; //영문 숫자 45글자
 	private Timestamp registration_date;
 	private int registrant;
 	private int state;
-	private String public_name;
+	@Pattern(regexp="^[\\sA-Za-z가-힣0-9]{1,30}") private String public_name; //띄어쓰기, 영문자, 한글, 숫자 1~30글자
 	private int is_open;
-	private String machine_name;
-	private String registrant_name;
+	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String machine_name; //영문자, 숫자 1~45글자
+	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String registrant_name; //영문자, 숫자 1~20글자
 	
 	
 	

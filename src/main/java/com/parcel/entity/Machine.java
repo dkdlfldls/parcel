@@ -2,9 +2,11 @@ package com.parcel.entity;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.Pattern;
+
 public class Machine {
 	private int idx;
-	private String machine_name;
+	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String machine_name; //영문자, 숫자 1~45글자
 	private int state;
 	private Timestamp sign_up_date;
 	

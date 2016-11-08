@@ -24,6 +24,7 @@ $(function(){
 });
 
 var validate = function(){
+	
 	var pw_pattern = /^[a-z0-9]{1,30}/g;
 	var code_pattern = /^[a-z]{45}$/;
 	

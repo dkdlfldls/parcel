@@ -171,4 +171,44 @@ public class GroupRepositoryImpl implements GroupRepository {
 		}
 	}
 
+	@Override
+	public List<Group> findGroupListByUserIdx(int uidx) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT ug.group_name "
+						+ ", u.name as managerName "
+						+ ", p.public_name as productName "
+						+ ", (SELECT count(gm.idx) FROM group_member gm WHERE gm.group = ug.idx) as groupMemberCnt "
+						+ ", p.idx as product "
+						+ ", ug.idx "
+						+ ", ug.manager " 
+					+"FROM user_group ug, user u, product p "  
+					+"WHERE ug.idx in (SELECT gm.group FROM group_member gm WHERE gm.member = ?) " 
+						+ " AND u.idx=ug.manager" 
+						+ " AND p.idx = ug.product";
+		try {
+			return t.query(sql, (rs,no)->{
+				Group g = new Group();
+				g.setGroup_name(rs.getString(1));
+				g.setManagerName(rs.getString(2));
+				g.setProductName(rs.getString(3));
+				g.setGroupMemberCnt(rs.getInt(4));
+				g.setProduct(rs.getInt(5));
+				g.setIdx(rs.getInt(6));
+				g.setManager(rs.getInt(7));
+				return g;
+			}, uidx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+			return null;
+		}
+	}
+
+	@Override
+	public int deleteGroupMemberByGroupAndUser(int gidx, int uidx) {
+		String sql ="DELETE FROM group_member WHERE group_member.group=? AND group_member.member=?";
+		
+		return t.update(sql, gidx, uidx);
+	}
+
 }

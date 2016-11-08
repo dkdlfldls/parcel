@@ -1,10 +1,14 @@
 package com.parcel.entity;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Range;
+
 public class MainPageEntity {
 	private int idx;
-	private String name;
-	private String pname;
-	private int isopen;
+	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String name; //영문자, 숫자 1~20글자
+	@Pattern(regexp="^[\\sA-Za-z가-힣0-9]{2,30}") private String pname;//띄어쓰기, 영문자, 한글, 숫자 2~30글자
+	@Range(min=0, max=1) private int isopen; //0~1
 	private int countg;
 	private int countm;
 	private int pidx;

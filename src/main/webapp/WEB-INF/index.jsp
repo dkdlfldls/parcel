@@ -13,13 +13,10 @@
 <script type="text/javascript">
 
 
-
 </script>
 
 </head>
 <body>
-	<h1>login page</h1>
-
 	
 	<div class="row">
 		<div class="col-sm-2"></div>
@@ -34,9 +31,9 @@
 								<label>id</label><input type="text" name="id" autocomplete="off" placeholder="id" class="form-control"><br/>		
 							</div>
 							<div class="form-group">
-								<label>pw</label><input type="password" name="pw" placeholder="pw"><br/>
+								<label>pw</label><input type="password" name="pw" placeholder="pw" class="form-control"><br/>
 								<input type="submit" class="btn btn-default" value="로그인">
-								<a href="join" class="btn btn-default form-control">가입</a>
+								<a href="join" class="btn btn-default">가입</a>
 							</div>
 						</form>
 					</div>

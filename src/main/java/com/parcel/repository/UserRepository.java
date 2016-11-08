@@ -13,4 +13,5 @@ public interface UserRepository {
 	public User getUser(int idx);
 	public List<MainPageEntity> getMainPageEntityList(int idx);
 	public MainPageEntity getMainPageEntityForUserInfo(int idx);
+	public User findUserById(String id);
 }
