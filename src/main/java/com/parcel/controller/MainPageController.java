@@ -24,20 +24,15 @@ public class MainPageController {
 	@RequestMapping("/")
 	public String getIndexPage(HttpSession session) {
 		if (session.getAttribute("idx") != null) {
-			return "redirect:/main";
+			return "redirect:/parcel/main";
 		} else {
 			
 			return "../index";
 		}
 		
 	}
-	@RequestMapping("/login")
-	public String getIndexPage() {
-		
-		return "../index";
-	}
 	
-	@RequestMapping("/main")
+	@RequestMapping("/parcel/main")
 	public String getMainPage(HttpSession session, Model model) {
 		int idx = (int) session.getAttribute("idx");
 		model.addAttribute("listEntity", userService.getMainPageEntityList(idx));

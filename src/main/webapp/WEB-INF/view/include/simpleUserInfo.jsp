@@ -3,6 +3,6 @@
 	<div class="panel-heading">로그인 정보</div>
 	<div class="panel-body">
 		이름 : ${userEntity.name }<br /> 메시지 : ${userEntity.countm }건<br />
-		<a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
+		<a href="/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
 	</div>
 </div>

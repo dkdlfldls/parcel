@@ -65,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
 				temp.setPw(rs.getString(3));
 				temp.setPhone(rs.getString(4));
 				temp.setEmail(rs.getString(5));
-				temp.setWeb_authority(rs.getInt(6));
+				temp.setWeb_authority(rs.getString(6));
 				temp.setState(rs.getInt(7));
 				temp.setName(rs.getString(8));
 				return temp;
@@ -136,7 +136,7 @@ public class UserRepositoryImpl implements UserRepository {
 				user.setPw(rs.getString("pw"));
 				user.setPhone(rs.getString("phone"));
 				user.setEmail(rs.getString("email"));
-				user.setWeb_authority(rs.getInt("web_authority"));
+				user.setWeb_authority(rs.getString("web_authority"));
 				user.setState(rs.getInt("state"));
 				user.setName(rs.getString("name"));
 				return user;
@@ -144,6 +144,17 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
+		}
+	}
+
+	@Override
+	public int updateUser(User user) {
+		String sql = "UPDATE user SET pw=?, name=?, email=?, phone=? WHERE idx=?";
+		try {
+			return t.update(sql, user.getPw(), user.getName(), user.getEmail(), user.getPhone(), user.getIdx());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
 		}
 	}
 	

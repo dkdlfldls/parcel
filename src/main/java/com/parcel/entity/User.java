@@ -8,17 +8,17 @@ public class User {
 	
 	private int idx;
 	@Pattern(regexp="[A-Za-z0-9]{1,20}") private String id; //영문,숫자 1~20글자
-	@Pattern(regexp="[A-Za-z0-9]{1,20}") private String pw; //영문,숫자 1~20글자
+	@Pattern(regexp="[A-Za-z0-9]{1,20}", message="error 에러") private String pw; //영문,숫자 1~20글자
 	@Pattern(regexp="^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}") private String phone; // xx-xxxx-xxxx
 	@Email private String email; //email
-	private int web_authority;
+	private String web_authority;
 	private int state;
 	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String name; //영문자, 숫자 1~20글자
 	private int productIdx;
 	private boolean hasGroup;
 	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String productName; //영문자, 숫자 1~45글자
 
-	public User(int idx, String id, String pw, String phone, String email, int web_authority, int state) {
+	public User(int idx, String id, String pw, String phone, String email, String web_authority, int state) {
 		super();
 		this.idx = idx;
 		this.id = id;
@@ -31,7 +31,7 @@ public class User {
 	
 	
 	
-	public User(int idx, String id, String pw, String phone, String email, int web_authority, int state, String name,
+	public User(int idx, String id, String pw, String phone, String email, String web_authority, int state, String name,
 			int productIdx) {
 		super();
 		this.idx = idx;
@@ -48,7 +48,7 @@ public class User {
 	
 
 
-	public User(int idx, String id, String pw, String phone, String email, int web_authority, int state, String name,
+	public User(int idx, String id, String pw, String phone, String email, String web_authority, int state, String name,
 			int productIdx, boolean hasGroup) {
 		super();
 		this.idx = idx;
@@ -67,7 +67,7 @@ public class User {
 
 
 
-	public User(int idx, String id, String pw, String phone, String email, int web_authority, int state, String name,
+	public User(int idx, String id, String pw, String phone, String email, String web_authority, int state, String name,
 			int productIdx, boolean hasGroup, String productName) {
 		super();
 		this.idx = idx;
@@ -157,13 +157,13 @@ public class User {
 
 
 
-	public int getWeb_authority() {
+	public String getWeb_authority() {
 		return web_authority;
 	}
 
 
 
-	public void setWeb_authority(int web_authority) {
+	public void setWeb_authority(String web_authority) {
 		this.web_authority = web_authority;
 	}
 
@@ -236,7 +236,16 @@ public class User {
 				+ productIdx + ", hasGroup=" + hasGroup + ", productName=" + productName + "]";
 	}
 
-
+	/**
+	 * user정보를 바꿀 때 pw, name, email, phone만 바꿔주는 메서드
+	 * @param user 새로 받을 값을 가진 User객체
+	 */
+	public void setDataForModify(User user) {
+		this.pw = user.getPw();
+		this.name = user.getName();
+		this.email = user.getEmail();
+		this.phone = user.getPhone();
+	}
 
 	
 

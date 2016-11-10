@@ -30,7 +30,7 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 	
-	@RequestMapping("/groupInfo")
+	@RequestMapping("/group/groupInfo")
 	public String getGroupInfo(HttpSession session, Model model) {
 		
 		List<Group> list = groupService.getGroupList((int)session.getAttribute("idx"));

@@ -5,7 +5,9 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
@@ -42,19 +44,12 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/main"/>
-			<mvc:mapping path="/group/deleteGroup"/>
-			<mvc:mapping path="/group/addGroup"/>
-			<mvc:mapping path="/group/makeGroupCode"/>
-			<mvc:mapping path="/product/getProductInfo"/>
-			<mvc:mapping path="/product/addProduct"/>
-			<mvc:mapping path="/product/addPage"/>
-			<mvc:mapping path="/group/makeGroupCode"/>
-			<mvc:mapping path="/group/joinGroup"/>
-			<mvc:mapping path="/message/info"/>
-			<mvc:mapping path="/message/check"/>
-			<mvc:mapping path="/group/drop/{gidx}"/>
-			<mvc:mapping path="/groupInfo"/>
+			<mvc:mapping path="/parcel/main"/>
+			<mvc:mapping path="/group/**"/>
+			<mvc:mapping path="/product/**"/>
+			<mvc:mapping path="/message/**"/>
+			<mvc:mapping path="/user/**"/>
+			<mvc:mapping path="/admin/**"/>
 			<bean class="com.parcel.interceptor.ControllerSessionInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
@@ -69,6 +64,7 @@
 	</bean> 
 	-->
 	
+
 	<context:component-scan base-package="com.parcel.controller"></context:component-scan>
 	
 

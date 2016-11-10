@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int login(User user) {
+	public User login(User user) {
 		User tempUser = userRepository.findUserById(user.getId());
 		if (tempUser != null && dataSecurity.check(user.getPw(), tempUser.getPw())) {
-			return tempUser.getIdx();
+			return tempUser;
 		} else {
-			return UserRepositoryImpl.INT_NULL;
+			return null;
 		}
 	}
 
@@ -61,6 +61,19 @@ public class UserServiceImpl implements UserService{
 	public MainPageEntity getMainPageEntityForUserInfo(int idx) {
 		
 		return userRepository.getMainPageEntityForUserInfo(idx);
+	}
+
+	@Override
+	public boolean modifyUserInfo(User user) {
+		// TODO Auto-generated method stub
+		user.setPw(dataSecurity.encrypt(user.getPw()));
+		
+		if (userRepository.updateUser(user) > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 
 }

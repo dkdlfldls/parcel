@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-
 <html>
 <head>
 <meta charset="UTF-8">
@@ -26,12 +25,17 @@
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
-						<form action="user/login" method="post">
+						<form action="login" method="post">
 							<div class="form-group">
-								<label>id</label><input type="text" name="id" autocomplete="off" placeholder="id" class="form-control"><br/>		
+								<label>id</label>
+								<input type="text" name="id" autocomplete="off" placeholder="id" class="form-control">
+								<br/>		
 							</div>
 							<div class="form-group">
-								<label>pw</label><input type="password" name="pw" placeholder="pw" class="form-control"><br/>
+								<label>pw</label>
+								<input type="password" name="pw" placeholder="pw" class="form-control">
+								<br/>
+								
 								<input type="submit" class="btn btn-default" value="로그인">
 								<a href="join" class="btn btn-default">가입</a>
 							</div>

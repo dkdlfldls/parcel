@@ -9,15 +9,18 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.jboss.logging.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 
 @Aspect
-@Controller
+@Component
 public class ControllerAop {
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -46,6 +49,7 @@ public class ControllerAop {
 			}
 		}
 	}
+	
 	
 	@Around("execution(* *..*Controller.*AndValidate(..))")
 	public String checkValid(ProceedingJoinPoint point) throws Throwable {

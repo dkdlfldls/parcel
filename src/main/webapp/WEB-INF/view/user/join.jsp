@@ -50,7 +50,7 @@ var validate = function(){
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
-						<form action="user/join" method="post" onsubmit="return validate()">
+						<form action="userJoin" method="post" onsubmit="return validate()">
 							<div class="form-group">
 								<label>아이디</label><input type="text" name="id" id="id" autocomplete="off" placeholder="id 영문/숫자 1~20글자" class="form-control"><br/>
 							</div>
@@ -67,7 +67,7 @@ var validate = function(){
 								<label>이메일</label><input type="email" name="email" id="email" autocomplete="off" placeholder="email ex a@a.a" class="form-control"><br/>
 							</div>
 							<input type="submit" class="btn btn-info">
-							<a href="main" type="button" class="btn btn-info">뒤로가기</a>
+							<a href="../" type="button" class="btn btn-info">뒤로가기</a>
 						</form>
 					</div>
 					<div class="col-sm-2"></div>
