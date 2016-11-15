@@ -9,15 +9,41 @@
 <title>Insert title here</title>
 
 <link rel="import" href="<spring:url value='/resources/html/include.html'/>">
+
 <link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/parcelInfo.css'/>">
 
+<script type="text/javascript" src="<spring:url value='/resources/js/sockjs/sockjs-1.1.1.min.js'/>"></script>
+<script type="text/javascript">
+
+	sock = new SockJS("/echo-ws");
+	sock.onmessage = function(evt) {
+		$("#chatMessage").append(evt.data + "<br/>");
+	}
+	
+	$(function(){
+		
+
+		
+		$("#sendMessage").click(function(){
+			if ($("#message").val() != "") {
+				
+				message = {};
+				message.message = $("#message").val();
+				message.group = "aaa";
+				
+				sock.send(JSON.stringify(message));
+				$("#chatMessage").append("나 -> : " + $("#message").val() + "<br/>");
+				$("#message").val("");
+			}
+		})
+		
+	});
+
+</script>
 
 </head>
 <body>
-
-
-
 <div class="row">
 	<div class="col-sm-2"></div>
 	<div class="col-sm-8">
@@ -27,8 +53,10 @@
 		<div class="row">
 		<br/>
 			<div class="col-sm-9"><!-- 메인정보 -->
-					TEST
-					
+				<input type="text" id="message"/>
+				<input type="button" id="sendMessage" value="메시지 보내기"/>
+				<div id="chatMessage" style="overFlow:auto; max-height:500px;"></div>
+				
 			</div>
 			<div class="col-sm-3">
 				<div><!-- 사용자 메뉴 -->
@@ -40,16 +68,5 @@
 	<div class="col-sm-2"></div>
 </div>
 
-<jsp:include page="../include/group_add_modal.jsp"></jsp:include>
-<div style="display: none;" id="popover_content">
-		<div class="form-group">
-			<label for="machine_code">택배함 비밀번호 확인 :</label> 
-			<input type="password" class="form-control" id="check_pw_for_group_delete">
-		</div>
-		<div>
-			<input type="button" class="btn btn-info" value="그룹 삭제" onclick="group_delete_request()">
-			<input type="button" class="btn btn-danger" value="삭제 취소" onclick="popover_hide_function()">
-		</div>
-</div>
 </body>
 </html>

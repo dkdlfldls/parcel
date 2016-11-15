@@ -11,7 +11,9 @@
 <link rel="import" href="<spring:url value='/resources/html/include.html'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/parcelInfo.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/chat_board.css'/>">
 
+<script type="text/javascript" src="<spring:url value='/resources/js/sockjs/sockjs-1.1.1.min.js'/>"></script>
 <script type="text/javascript">
 
 
@@ -96,8 +98,73 @@ $(function(){
 		});
 			//2.잘 열렸다고 답 오면 페이지 재접속
 		});
-
+		
 	})
+	
+	
+	
+	//----- 그룹 채팅 -----
+	$(function(){
+		$("#group_chat_btn").click(function(){
+			if ($("#group_chat_btn").attr("data") == 0) {
+				$("#group_chat_btn").attr("data",1);
+				$("#group_chat_btn").val("그룹 채팅 닫기");
+				//채팅 창 열고 기타 등등 
+				
+				sock = new SockJS("/echo-ws");
+				
+				message = {};
+				
+				
+				sock.onopen = function() {
+					message.message = "";
+					message.group = "${group.idx }";
+					message.type = "1"
+					sock.send(JSON.stringify(message));
+				};
+				sock.onmessage = function(evt) {
+					$("#chatMessage").append(evt.data + "<br/>");
+				};
+				sock.onclose = function() {
+					message.message = "";
+					message.group = "${group.idx }";
+					message.type = "3"
+					sock.send(JSON.stringify(message));
+				}
+				//chat-div 보이게 하기
+				$("#chat-div").attr("style", "visibility:visible");
+				
+			} else {
+				$("#group_chat_btn").attr("data",0);
+				$("#group_chat_btn").val("그룹 채팅 열기");
+				//채팅창 닫고 기타 등등
+				sock.onclose();
+				sock.close();
+				//chat-div 안보이게 하기
+				$("#chat-div").attr("style", "visibility:hidden");
+			}
+			
+		});
+		
+		$("#sendMessage").click(function(){
+			if ($("#message").val() != "") {
+				
+				message = {};
+				message.message = $("#message").val();
+				message.group = "${group.idx }";
+				message.type = "2";
+				message.name = "${userEntity.name }";
+				
+				sock.send(JSON.stringify(message));
+				$("#chatMessage").append("나 -> : " + $("#message").val() + "<br/>");
+				$("#message").val("");
+			}
+		})
+		
+		
+		
+	});
+	
 </script>
 
 </head>
@@ -175,8 +242,15 @@ $(function(){
 							<div class="col-sm-7"></div>
 						</div>
 					</c:if>
-					
-					
+					<br/>
+					<!-- 채팅창 부분 시작 -->
+					<input id="group_chat_btn" type="button" value="그룹 채팅 열기" data="0" class="btn btn-danger">
+					<div id="chat-div" style="visibility: hidden;">
+						<div class="chat_board" id="chatMessage"></div>
+						<input type="text" id="message">
+						<input type="button" value="입력" id="sendMessage">
+					</div>
+					<!-- 채팅창 부분 끝 -->
 				</div>
 			<div class="col-sm-3">
 				<div><!-- 사용자 메뉴 -->

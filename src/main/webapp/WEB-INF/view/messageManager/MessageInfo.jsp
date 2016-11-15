@@ -29,12 +29,12 @@
 			}
 			
 		});
+		
 	}
 </script>
 
 </head>
 <body>
-
 
 
 <div class="row">
@@ -49,7 +49,7 @@
 				<c:if test="${isEmpty eq false }">
 					<table class="table table-hover">
 						<thead>
-							<tr>
+							<tr class="non-select">
 								<th>번호</th>
 								<th>메시지</th>
 								<th>받은시간</th>
