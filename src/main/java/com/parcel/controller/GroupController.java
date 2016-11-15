@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.parcel.entity.Group;
+import com.parcel.entity.User_group;
 import com.parcel.service.GroupService;
 
 @Controller
@@ -33,7 +33,7 @@ public class GroupController {
 	@RequestMapping("/group/groupInfo")
 	public String getGroupInfo(HttpSession session, Model model) {
 		
-		List<Group> list = groupService.getGroupList((int)session.getAttribute("idx"));
+		List<User_group> list = groupService.getGroupList((int)session.getAttribute("idx"));
 		model.addAttribute("groupList", list);
 		//몇몇 파라미터 받아서 페이지를 그릴 수 있어야 되는데 일단은 연결만
 		return "/groupManager/groupInfo";
@@ -55,7 +55,7 @@ public class GroupController {
 	}
 	@RequestMapping(value="/group/addGroup", method=RequestMethod.POST)
 	@ResponseBody
-	public String addGroupAndValidate(HttpSession session, @RequestBody @Valid Group group, BindingResult result) {
+	public String addGroupAndValidate(HttpSession session, @RequestBody @Valid User_group group, BindingResult result) {
 		//그룹을 추가하고 (코드 중복으로 인해 실패할 수 있음 -->재수없게 동시에 두 코드가 중복되서 누군가 먼저 넣은경우)
 		System.out.println(group.toString());
 		group.setManager((int)session.getAttribute("idx"));
@@ -68,7 +68,7 @@ public class GroupController {
 	}
 	@RequestMapping(value="/group/deleteGroup", method=RequestMethod.POST)
 	@ResponseBody
-	public int deleteGroup(@RequestBody Group group, HttpSession session) {
+	public int deleteGroup(@RequestBody User_group group, HttpSession session) {
 		return groupService.deleteGroup(group);
 		
 	}
@@ -84,9 +84,9 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="/group/joinGroup", method=RequestMethod.POST)
-	public String joinGroupAndValidate(HttpSession session, RedirectAttributes model, @Valid Group group, BindingResult result) {
+	public String joinGroupAndValidate(HttpSession session, RedirectAttributes model, @Valid User_group group, BindingResult result) {
 		if (groupService.joinGroup(group.getCode(), group.getPw(), (int)session.getAttribute("idx"))) {
-			return "redirect:/main";
+			return "redirect:/parcel/main";
 		} else {
 			model.addAttribute("msg", "check your input");
 			return "redirect:";
@@ -97,6 +97,6 @@ public class GroupController {
 	public String dropGroup(@PathVariable int gidx, HttpSession session) {
 		boolean r = groupService.dropGroup(gidx, (int)session.getAttribute("idx"));
 		
-		return "redirect:/groupInfo";
+		return "redirect:/group/groupInfo";
 	}
 }

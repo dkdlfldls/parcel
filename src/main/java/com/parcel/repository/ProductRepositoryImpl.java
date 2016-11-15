@@ -24,7 +24,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 	
 	@Override
 	public List<Machine> getMachineList() {
-		System.out.println("getMachineList run in ProductRepositoryImpl");
 		String sql = "SELECT * FROM machine";
 		return t.query(sql, (rs,no)->{
 			Machine m = new Machine(
@@ -42,15 +41,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 	@Override
 	public int updateProduct(Product product) {
-		System.out.println("updateProduct run in ProductRepositoryImpl");
 		String sql = "UPDATE product SET registrant=?, public_name=?, registration_date=now(), state=1 WHERE machine=? AND machine_code=?";
 		
 		return t.update(sql, product.getRegistrant(), product.getPublic_name(), product.getMachine(), product.getMachine_code());
 	}
 
 	@Override
-	public Product checkProduct(Product product) {
-		System.out.println("checkProduct run in ProductRepositoryImpl");
+	public Product findProductByMachineAndMachine_code(Product product) {
 		String sql = "SELECT * FROM product WHERE machine=? AND machine_code=?";
 		try {
 			return t.queryForObject(sql, (rs, no)->{
@@ -70,7 +67,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 	@Override
 	public Product getProductInfo(int pidx) {
-		System.out.println("getProductInfo run in ProductRepositoryImpl");
 		String sql = "SELECT p.*, m.machine_name, u.name as registrant_name "
 				+ "FROM product p, machine m, user u "
 				+ "WHERE p.idx=? AND m.idx=p.machine AND u.idx=p.registrant;";

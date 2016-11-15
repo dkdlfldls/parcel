@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.parcel.entity.Group;
-import com.parcel.entity.GroupMember;
+import com.parcel.entity.User_group;
+import com.parcel.entity.Group_member;
 import com.parcel.entity.User;
 
 @Repository
@@ -24,13 +24,13 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 	
 	@Override
-	public Group findGroupByProductIdx(int pidx) {
+	public User_group findGroupByProductIdx(int pidx) {
 		// TODO Auto-generated method stub
 		String sql ="SELECT * FROM user_group ug WHERE ug.product=?";
 		
 		try {
 			return t.queryForObject(sql, (rs,no)->{
-				Group group = new Group();
+				User_group group = new User_group();
 				group.setIdx(rs.getInt("idx"));
 				group.setGroup_name(rs.getString("group_name"));
 				group.setManager(rs.getInt("manager"));
@@ -67,12 +67,12 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public Group findGroupByCode(String code) {
+	public User_group findGroupByCode(String code) {
 		
 		String sql = "SELECT * FROM user_group WHERE code=?";
 		try {
 			return t.queryForObject(sql, (rs,no)->{ //이거랑 똑같은 로우맵퍼 또생기면 그냥 클래스 만들어서 쓰자
-				Group group = new Group();
+				User_group group = new User_group();
 				group.setIdx(rs.getInt("idx"));
 				group.setGroup_name(rs.getString("group_name"));
 				group.setManager(rs.getInt("manager"));
@@ -88,7 +88,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public int insertGroup(Group group) {
+	public int insertGroup(User_group group) {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO user_group (group_name, manager, product, pw, code) values(?, ?, ?, ?, ?)";
 		try {
@@ -100,7 +100,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public int insertGroupMember(GroupMember member) {
+	public int insertGroupMember(Group_member member) {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO `parcel`.`group_member` (`group`, `member`) VALUES (?, ?)";
 		try {
@@ -114,13 +114,13 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public boolean isValidPw(Group group) {
+	public boolean isValidPw(User_group group) {
 		
-		Group temp;
+		User_group temp;
 		String sql = "SELECT idx FROM user_group WHERE idx=? AND pw=?";
 		try {
 			temp = t.queryForObject(sql, (rs,no)->{
-				Group g = new Group();
+				User_group g = new User_group();
 				g.setIdx(rs.getInt(1));
 				return g;
 			}, group.getIdx(), group.getPw());
@@ -154,12 +154,12 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public GroupMember findGroupMemberByCodeAndMember(String code, int joiner) {
+	public Group_member findGroupMemberByCodeAndMember(String code, int joiner) {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM group_member gm WHERE gm.group = (SELECT ug.idx from user_group ug WHERE ug.code=?) AND gm.member = ?";
 		try {
 			return t.queryForObject(sql, (rs,no)->{
-				GroupMember gm = new GroupMember();
+				Group_member gm = new Group_member();
 				gm.setIdx(rs.getInt(1));
 				gm.setGroup(rs.getInt(2));
 				gm.setMember(rs.getInt(3));
@@ -172,7 +172,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 	}
 
 	@Override
-	public List<Group> findGroupListByUserIdx(int uidx) {
+	public List<User_group> findGroupListByUserIdx(int uidx) {
 		// TODO Auto-generated method stub
 		String sql = "SELECT ug.group_name "
 						+ ", u.name as managerName "
@@ -187,7 +187,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 						+ " AND p.idx = ug.product";
 		try {
 			return t.query(sql, (rs,no)->{
-				Group g = new Group();
+				User_group g = new User_group();
 				g.setGroup_name(rs.getString(1));
 				g.setManagerName(rs.getString(2));
 				g.setProductName(rs.getString(3));

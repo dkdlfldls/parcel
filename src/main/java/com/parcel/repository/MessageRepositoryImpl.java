@@ -71,4 +71,29 @@ public class MessageRepositoryImpl implements MessageRepository {
 		
 	}
 
+	@Override
+	public Message findMEssageByIdx(int idx) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM message WHERE idx=?";
+		
+		try {
+			return t.queryForObject(sql, (rs,no)->{
+				Message m = new Message();
+				m.setIdx(rs.getInt(1));
+				m.setReceiver(rs.getInt(2));
+				m.setMessage(rs.getString(3));
+				m.setSend_time(rs.getTimestamp(4));
+				m.setState(rs.getInt(5));
+				m.setShow(rs.getInt(6));
+				return m;
+			}, idx);
+		} catch (Exception e) {
+			
+		}
+		
+		return null;
+	}
+	
+	
+
 }

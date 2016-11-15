@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.parcel.controller.GroupController;
-import com.parcel.entity.Group;
-import com.parcel.entity.GroupMember;
+import com.parcel.entity.Group_member;
 import com.parcel.entity.User;
+import com.parcel.entity.User_group;
 import com.parcel.repository.GroupRepository;
 import com.parcel.util.CodeMaker;
 import com.parcel.util.DataSecurity;
+import com.parcel.util.LogMaker;
+import com.parcel.util.LogProperties;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -31,10 +33,17 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired
 	private DataSecurity dataSecurity;
 	
+	@Autowired
+	private LogService logService;
+	@Autowired
+	private LogProperties prop;
+	@Autowired
+	private LogMaker logMaker;
+	
 	@Override
-	public Group getGroupInfoForProductInfo(int pidx) {
+	public User_group getGroupInfoForProductInfo(int pidx) {
 		// TODO Auto-generated method stub
-		Group group = groupRepository.findGroupByProductIdx(pidx);
+		User_group group = groupRepository.findGroupByProductIdx(pidx);
 		List<User> userList = groupRepository.findUserListByProductIdx(pidx);
 		if (!userList.isEmpty()) {
 			group.setGroupUserList(userList);
@@ -47,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
 	public String makeUniquenessOfGroupCode() {
 		// TODO Auto-generated method stub
 		String codeTemp;
-		Group temp;
+		User_group temp;
 		for (int i = 0; i < TRY_COUNT; i++) {
 			codeTemp = codeMaker.makeCode(GroupCodeSize);
 			if(  (temp = groupRepository.findGroupByCode(codeTemp)) == null ) {
@@ -59,17 +68,19 @@ public class GroupServiceImpl implements GroupService {
 
 	@Transactional
 	@Override
-	public boolean addGroup(Group group) {
+	public boolean addGroup(User_group group) {
 		int result = groupRepository.insertGroup(group);
+		logService.addLog(logMaker.addGroup(group.getProduct(), group.getManager(), group.getGroup_name())  , group, prop.getInt("addGroup"));
 		int groupIdx;
 		if (result > 0) {
 			//성공 했으면 그 그룹에 자기 자신을 추가해줘야 한다.
 			groupIdx = groupRepository.findGroupByCode(group.getCode()).getIdx();
-			GroupMember member = new GroupMember();
+			Group_member member = new Group_member();
 			member.setGroup(groupIdx);
 			member.setMember(group.getManager());
 			//그룹에 자기자신 추가
 			groupRepository.insertGroupMember(member);
+			logService.addLog(logMaker.joinGroup(member.getMember(), group.getProduct(), member.getGroup())  , member, prop.getInt("joinGroup"));
 			return true;
 		} else {
 			return false;
@@ -78,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Transactional
 	@Override
-	public int deleteGroup(Group group) {
+	public int deleteGroup(User_group group) {
 		//group idx, pw
 		//0. pw를 확인한다.
 		int delGroupMemberCnt;
@@ -96,6 +107,7 @@ public class GroupServiceImpl implements GroupService {
 				if (delGroupCnt <= 0) {
 					throw new Exception();
 				}
+				logService.addLog(logMaker.deleteGroup(group.getIdx()), group, prop.getInt("groupDelete"));
 				return GroupController.SUCCESS;
 			} else {
 				return GroupController.WRONG_PW;
@@ -111,11 +123,12 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean joinGroup(String code, String pw, int joiner)  {
 		//가입을 확인한다 find메서드 뭐 써서 나오면 있는거니까
-		GroupMember member = groupRepository.findGroupMemberByCodeAndMember(code, joiner); 
+		Group_member member = groupRepository.findGroupMemberByCodeAndMember(code, joiner); 
 		if (member == null) {
 			int result = groupRepository.insertGroupMemberByCodeAndPw(code, pw, joiner);
-			//가입이 되어있는지도 확인을 해야하는구나....
 			if (result > 0 ) {
+				User_group group = groupRepository.findGroupByCode(code);
+				logService.addLog(logMaker.joinGroup(joiner, group.getProduct(), group.getIdx())  , group, prop.getInt("joinGroup"));
 				return true;
 			} else {
 				return false;
@@ -128,11 +141,11 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> getGroupList(int uidx) {
-		List<Group> list = groupRepository.findGroupListByUserIdx(uidx);
+	public List<User_group> getGroupList(int uidx) {
+		List<User_group> list = groupRepository.findGroupListByUserIdx(uidx);
 		System.out.println(list);
 		if(list == null) {
-			return new ArrayList<Group>();
+			return new ArrayList<User_group>();
 		} else {
 			return list;
 		}
@@ -141,6 +154,8 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean dropGroup(int gidx, int uidx) {
 		if (groupRepository.deleteGroupMemberByGroupAndUser(gidx, uidx) > 0) {
+			
+			logService.addLog(logMaker.dropGroup(uidx, gidx), null, prop.getInt("dropGroup"));
 			return true;
 		} else {
 			return false;

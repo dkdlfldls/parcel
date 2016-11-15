@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.parcel.entity.Group;
+import com.parcel.entity.User_group;
 import com.parcel.entity.Product;
 import com.parcel.entity.User;
 import com.parcel.service.GroupService;
@@ -27,7 +27,7 @@ public class ProductController {
 	private GroupService groupService;
 	
 	@RequestMapping("/product/addPage")
-	public String addProductPage(Model model) {
+	public String registerProductPage(Model model) {
 		
 		model.addAttribute("machineList", productService.getMachineList());
 		
@@ -36,12 +36,12 @@ public class ProductController {
 	
 	@RequestMapping(value="/product/addProduct", method=RequestMethod.POST)
 	@ResponseBody
-	public String addProductAndValidate(HttpSession session, @RequestBody @Valid Product product, BindingResult result) {
+	public String registerProductAndValidate(HttpSession session, @RequestBody @Valid Product product, BindingResult result) {
 		System.out.println("addProduct process");
 		System.out.println(product.toString());
 		
 		product.setRegistrant((int)session.getAttribute("idx"));
-		String message = productService.addProduct(product);
+		String message = productService.registerProductByUser(product);
 		
 		System.out.println(message);
 		return message;
@@ -53,7 +53,7 @@ public class ProductController {
 		
 		model.addAttribute("product", productService.getProductInfo(pidx));
 		
-		Group group = groupService.getGroupInfoForProductInfo(pidx);
+		User_group group = groupService.getGroupInfoForProductInfo(pidx);
 		if (group == null) {
 			model.addAttribute("hasGroup", false);
 		} else {

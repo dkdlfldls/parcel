@@ -47,7 +47,7 @@ $(function(){
 					success: function(data, status){
 						if (data == "등록 완료") {
 							alert("등록이 완료되었습니다.");
-							location.href="../main";
+							location.href="/parcel/main";
 						} else {
 							alert(data);
 							return;

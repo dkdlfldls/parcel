@@ -146,7 +146,10 @@ $(function(){
 					
 					
 					<c:if test="${hasGroup eq false}">
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#group_add_modal">그룹 만들기</button><br/>
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#group_add_modal">그룹 만들기</button>
+						<c:if test="${product.is_open eq 0 }"><input type="button" id="do_lock" class="btn btn-info" value="잠그기"></c:if>
+						<c:if test="${product.is_open ne 0 }"><input type="button" id="do_open" class="btn btn-info" value="열기"></c:if>
+						<br/>
 						그룹 없음
 					</c:if>
 					<c:if test="${hasGroup eq true}">

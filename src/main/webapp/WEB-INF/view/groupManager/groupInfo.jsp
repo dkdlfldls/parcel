@@ -45,14 +45,14 @@
 												<tr class="middle-align">
 													<td>${status.count }</td>
 													<td>
-														<a href="product/getProductInfo?pidx=${i.product }">${i.group_name }</a>
+														<a href="/product/getProductInfo?pidx=${i.product }">${i.group_name }</a>
 													</td>
 													<td>${i.productName }</td>
 													<td>${i.managerName }</td>
 													<td>${i.groupMemberCnt }명</td>
 													<td>
 														<c:if test="${i.manager eq userEntity.idx}">내 그룹</c:if>
-														<c:if test="${i.manager ne userEntity.idx}"><a href="group/drop/${i.idx }">그룹 나가기</a></c:if>
+														<c:if test="${i.manager ne userEntity.idx}"><a href="/group/drop/${i.idx }">그룹 나가기</a></c:if>
 														
 													</td>
 												</tr>

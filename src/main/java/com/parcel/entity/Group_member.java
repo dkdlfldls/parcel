@@ -1,6 +1,6 @@
 package com.parcel.entity;
 
-public class GroupMember {
+public class Group_member {
 	private int idx;
 	private int group;
 	private int member;
@@ -9,14 +9,14 @@ public class GroupMember {
 	public String toString() {
 		return "GroupMemeber [idx=" + idx + ", group=" + group + ", member=" + member + ", state=" + state + "]";
 	}
-	public GroupMember(int idx, int group, int member, int state) {
+	public Group_member(int idx, int group, int member, int state) {
 		super();
 		this.idx = idx;
 		this.group = group;
 		this.member = member;
 		this.state = state;
 	}
-	public GroupMember() {
+	public Group_member() {
 		
 	}
 	public int getIdx() {

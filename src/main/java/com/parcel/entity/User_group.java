@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
-public class Group {
+public class User_group {
 	
 	private int idx;
 	@Pattern(regexp="^[\\sA-Za-z가-힣0-9]{1,30}") private String group_name; //띄어쓰기, 영문자, 한글, 숫자 1~30글자
@@ -87,10 +87,10 @@ public class Group {
 	public void setGroupMemberCnt(int groupMemberCnt) {
 		this.groupMemberCnt = groupMemberCnt;
 	}
-	public Group() {
+	public User_group() {
 		
 	}
-	public Group(int idx, String group_name, int manager, int product, int state, List<User> groupUserList, String pw,
+	public User_group(int idx, String group_name, int manager, int product, int state, List<User> groupUserList, String pw,
 			String code) {
 		super();
 		this.idx = idx;
@@ -105,7 +105,7 @@ public class Group {
 	
 	
 	
-	public Group(int idx, String group_name, int manager, int product, int state, List<User> groupUserList, String pw,
+	public User_group(int idx, String group_name, int manager, int product, int state, List<User> groupUserList, String pw,
 			String code, String managerName, String productName, int groupMemberCnt) {
 		super();
 		this.idx = idx;

@@ -10,7 +10,7 @@ public interface ProductService {
 	//public
 	
 	public List<Machine> getMachineList();
-	public String addProduct(Product product);
+	public String registerProductByUser(Product product);
 	public Product getProductInfo(int pidx);
 	public boolean lock(User user);
 	public boolean open(User user);

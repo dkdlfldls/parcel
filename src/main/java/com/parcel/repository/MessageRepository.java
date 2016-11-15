@@ -14,4 +14,5 @@ public interface MessageRepository {
 
 	public int updateShowByIdx(int idx, int show);
 	
+	public Message findMEssageByIdx(int idx);
 }

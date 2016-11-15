@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 public class Product {
 	private int idx;
 	private int machine;
-	@Pattern(regexp="^[a-z]{45}$") private String machine_code; //영문 숫자 45글자
+	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String machine_code; //영문 숫자 45글자
 	private Timestamp registration_date;
 	private int registrant;
 	private int state;

@@ -16,6 +16,8 @@ import com.parcel.entity.User;
 import com.parcel.repository.MessageRepository;
 import com.parcel.repository.ProductRepository;
 import com.parcel.repository.UserRepository;
+import com.parcel.util.LogMaker;
+import com.parcel.util.LogProperties;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -29,6 +31,14 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private MessageRepository messageRepository;
 	
+	@Autowired
+	private LogService logService;
+	@Autowired
+	private LogProperties prop;
+	@Autowired
+	private LogMaker logMaker;
+	
+	
 	public static final boolean LOCK = false;
 	public static  final boolean OPEN = true;
 	
@@ -39,13 +49,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public String addProduct(Product product) {
+	public String registerProductByUser(Product product) {
 		//1. 등록이 되어있는지 부터 확인한다.
 		//2. 등록이 되어있다면 등록된 제품이라고 알려주고 등록이 안되어 있다면 update를 시작한다.
 		//3. 업데이트에 실패하면 입력 확인하라고 알려준다.
 		//4. 성공하면 성공했다고 알려준다.
 		System.out.println("=====addProduct process in ProductServiceImpl=====");
-		Product temp = productRepository.checkProduct(product);
+		Product temp = productRepository.findProductByMachineAndMachine_code(product);
 		if (temp == null) {
 			return "입력 정보를 확인하여 주세요";
 		} else {
@@ -56,6 +66,7 @@ public class ProductServiceImpl implements ProductService{
 				//등록 시작
 				int result = productRepository.updateProduct(product);
 				if (result > 0 ) {
+					logService.addLog(logMaker.registerProduct(product.getRegistrant(), temp.getIdx()), temp, prop.getInt("addProduct"));
 					return "등록 완료";
 				} else {
 					return "입력 정보를 확인하여 주세요";
@@ -80,12 +91,12 @@ public class ProductServiceImpl implements ProductService{
 			User lock_user = userRepository.getUser(user.getIdx());
 			//2. 잠근다.
 			productRepository.updateProductByIdxForLock(user.getProductIdx(), LOCK);
+			logService.addLog(logMaker.lockProduct(user.getIdx(), user.getProductIdx()), user, prop.getInt("productLock"));
 			//변경한 시간
 			Message message = new Message();
 			String msg = (new SimpleDateFormat("YYYY년 MM월 dd일 HH시 mm분").format(new Timestamp(System.currentTimeMillis()))) 
 					+ " " + lock_user.getName() + "이 " + user.getProductName() + "을 잠궜습니다.";
 			message.setMessage(msg);
-			System.out.println(msg);
 			//3. 그룹이 있는지 확인한다. 
 			if (user.isHasGroup()) {
 				//그룹이 있으면 그룹원 전체에게 메시지를 보내야겠고
@@ -113,12 +124,12 @@ public class ProductServiceImpl implements ProductService{
 			User open_user = userRepository.getUser(user.getIdx());
 			//열기
 			productRepository.updateProductByIdxForLock(user.getProductIdx(), OPEN);
+			logService.addLog(logMaker.unlockProduct(user.getIdx(), user.getProductIdx()), user, prop.getInt("productUnlock"));
 			//변경한 시간
 			Message message = new Message();
 			String msg = (new SimpleDateFormat("YYYY년 MM월 dd일 HH시 mm분").format(new Timestamp(System.currentTimeMillis()))) 
 					+ " " + open_user.getName() + "이 " + user.getProductName() + "을 열었습니다.";
 			message.setMessage(msg);
-			System.out.println(msg);
 			//그룹이 있나없나에 따른 다른 처리
 			if (user.isHasGroup()) {
 				//productIdx를 가지고 user_group에서 user_group의 idx를 찾고 그 idx로 group_member에서 해당 group인 사람들에게 전부 메시지를 넣는다.

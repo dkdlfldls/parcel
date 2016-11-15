@@ -82,7 +82,7 @@ public class UserController {
 		tempUser.setDataForModify(user);
 		userService.modifyUserInfo(tempUser);
 		
-		return "redirect:infoModify";
+		return "redirect:/user/infoModify";
 	}
 
 	
