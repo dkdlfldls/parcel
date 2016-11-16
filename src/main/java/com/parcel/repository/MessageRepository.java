@@ -3,6 +3,7 @@ package com.parcel.repository;
 import java.util.List;
 
 import com.parcel.entity.Message;
+import com.parcel.util.Page;
 
 public interface MessageRepository {
 
@@ -15,4 +16,8 @@ public interface MessageRepository {
 	public int updateShowByIdx(int idx, int show);
 	
 	public Message findMEssageByIdx(int idx);
+
+	public List<Message> findMessageListByReceiverAndPage(int idx, Page page);
+
+	public int countMessageListByReceiver(int idx);
 }

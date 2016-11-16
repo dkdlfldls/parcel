@@ -36,7 +36,6 @@
 </head>
 <body>
 
-
 <div class="row">
 	<div class="col-sm-2"></div>
 	<div class="col-sm-8">
@@ -76,6 +75,21 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					
+						<!-- 페이징 부분 -->
+						<div style="text-align: center;">
+							<ul class="pagination">
+								<c:forEach begin="${pageInfo.firstPagination }" end="${pageInfo.lastPagination }" var="i">
+									<c:if test="${i eq  pageInfo.currentPage}">
+										<li class="active"><a href="/message/info?currentPage=${i }">${i }</a></li>
+									</c:if>
+									<c:if test="${i ne  pageInfo.currentPage}">
+										<li><a href="/message/info?currentPage=${i }">${i }</a></li>
+									</c:if>
+								
+								</c:forEach>
+							</ul>
+						</div>
 				</c:if>
 
 				</div>

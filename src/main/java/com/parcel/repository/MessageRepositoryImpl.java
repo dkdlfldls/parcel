@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.parcel.entity.Message;
+import com.parcel.util.Page;
 
 @Repository
 public class MessageRepositoryImpl implements MessageRepository {
@@ -92,6 +93,33 @@ public class MessageRepositoryImpl implements MessageRepository {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public List<Message> findMessageListByReceiverAndPage(int idx, Page page) {
+		String sql ="SELECT * FROM message WHERE receiver=? ORDER BY message.show ASC LIMIT ?, ?";
+		
+		try {
+			return t.query(sql, (rs, no)->{
+				return new Message(
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getString(3),
+						rs.getTimestamp(4),
+						rs.getInt(5),
+						rs.getInt(6)
+				);
+			}, idx, page.getFirstContent(), page.getShownContentListSize());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public int countMessageListByReceiver(int idx) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT COUNT(idx) FROM message WHERE receiver=?";
+		return t.queryForObject(sql, Integer.class, idx);
 	}
 	
 	

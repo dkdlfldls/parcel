@@ -9,6 +9,7 @@ import com.parcel.entity.Message;
 import com.parcel.repository.MessageRepository;
 import com.parcel.util.LogMaker;
 import com.parcel.util.LogProperties;
+import com.parcel.util.Page;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -43,5 +44,12 @@ public class MessageServiceImpl implements MessageService {
 		} else {
 			return false;			
 		}
+	}
+
+	@Override
+	public List<Message> getMessageListForPaging(int idx, Page page) {
+		// TODO Auto-generated method stub
+		page.setPageInfo(messageRepository.countMessageListByReceiver(idx));
+		return messageRepository.findMessageListByReceiverAndPage(idx, page);
 	}
 }

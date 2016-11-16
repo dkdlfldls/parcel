@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.parcel.entity.Message;
 import com.parcel.service.MessageService;
+import com.parcel.util.Page;
 
 @Controller
 public class MessageController {
@@ -23,16 +24,19 @@ public class MessageController {
 	
 	
 	@RequestMapping("/message/info")
-	public String getMessageInfo(Model model, HttpSession session) {
+	public String getMessageInfo(Model model, HttpSession session, Page page) {
 		
+		//page.setPageInfo();
 		int idx = (int)session.getAttribute("idx");
-		List<Message> list = messageService.getMessageList(idx);
+		
+		List<Message> list = messageService.getMessageListForPaging(idx, page);
 		if (list == null || list.isEmpty()) {
 			model.addAttribute("isEmpty", true);
 		} else {
 			model.addAttribute("isEmpty", false);
 		}
 		model.addAttribute("messageList", list);
+		model.addAttribute("pageInfo", page);
 		
 		return "/messageManager/MessageInfo";
 	}

@@ -7,7 +7,7 @@
 		<ul class="nav navbar-nav">
 			<li><a href="/parcel/main">Home</a></li>
 			<li><a href="/group/groupInfo">그룹 관리</a></li>
-			<li><a href="/message/info">메시지 관리</a></li>
+			<li><a href="/message/info?currentPage=1">메시지 관리</a></li>
 			<li><a href="/user/infoModify">개인정보 관리</a></li>
 		</ul>
 	</div>
