@@ -44,6 +44,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-9"><!-- 메인정보 -->
+			
 				<c:if test="${isEmpty eq true }">받은 메시지가 없습니다.</c:if>
 				<c:if test="${isEmpty eq false }">
 					<table class="table table-hover">

@@ -2,6 +2,7 @@ package com.parcel.handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -20,9 +21,11 @@ public class EchoHandler extends TextWebSocketHandler {
 	private Logger logger = LoggerFactory.getLogger(TextWebSocketHandler.class);
 	
 	private Map<String, ArrayList<WebSocketSession>> groupChatting;
+	private List<WebSocketSession> errorList;
 	
 	public EchoHandler() {
 		groupChatting = new HashMap<String, ArrayList<WebSocketSession>>();
+		errorList = new ArrayList<WebSocketSession>();
 	}
 	
 	
@@ -90,11 +93,22 @@ public class EchoHandler extends TextWebSocketHandler {
 										+ messageVo.getMessage()));								
 							} catch (Exception e) {
 								logger.debug(e.getMessage());
-								groupChatting.get(messageVo.getGroup()).remove(user);
+								//바로 삭제하면 안되고 리스트에 담아뒀다가 나중에 삭제한다.
+								//groupChatting.get(messageVo.getGroup()).remove(user);
+								errorList.add(user);
 							}
 						}
 					}
 				}
+				for (WebSocketSession errorSession : errorList) {
+					try {
+						groupChatting.get(messageVo.getGroup()).remove(errorSession);						
+					} catch (Exception e) {
+						logger.debug(e.getMessage());
+					}
+				}
+				errorList.clear();
+				
 			}
 				
 			

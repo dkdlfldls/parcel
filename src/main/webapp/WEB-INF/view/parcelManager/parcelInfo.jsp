@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="<spring:url value='/resources/css/parcelInfo.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/chat_board.css'/>">
 
-<script type="text/javascript" src="<spring:url value='/resources/js/sockjs/sockjs-1.1.1.min.js'/>"></script>
+<script type="text/javascript" src="<spring:url value='/resources/javascript/sockjs/sockjs-1.1.1.min.js'/>"></script>
 <script type="text/javascript">
 
 

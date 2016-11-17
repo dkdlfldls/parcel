@@ -1,4 +1,4 @@
-package com.parcel.controller;
+package com.parcel.administrator.controller;
 
 import javax.servlet.http.HttpSession;
 

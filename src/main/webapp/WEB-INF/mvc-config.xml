@@ -30,9 +30,9 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
     <mvc:default-servlet-handler/>
-	<!-- 
-	<mvc:resources mapping="/resources/**" location="classpath:/resources/" cache-period="31556926"/>
-	 -->
+	 
+	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/"/>
+	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
 	        <property name="prefix" value="/WEB-INF/view/"/>
@@ -66,6 +66,7 @@
 	
 
 	<context:component-scan base-package="com.parcel.controller"></context:component-scan>
+	<context:component-scan base-package="com.parcel.administrator.controller"></context:component-scan>
 	
 
 </beans>

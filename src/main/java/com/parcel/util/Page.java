@@ -14,6 +14,10 @@ public class Page {
 	private int shownContentListSize;
 	private int contentListSize; //db를 통해서 가져와야 한다.
 	
+	private String keyword;
+	
+	private int category;
+	
 	public Page() {
 		this.currentPage = 1;
 		this.paginationSize = 5;
@@ -34,6 +38,9 @@ public class Page {
 		this.firstContent = lastContent - shownContentListSize + 1; //
 	}
 	
+	public String getkeywordForSqlLike() {
+		return "%" + keyword + "%";
+	}
 	
 	
 	//getter, setter
@@ -100,6 +107,31 @@ public class Page {
 	public void setContentListSize(int contentListSize) {
 		this.contentListSize = contentListSize;
 	}
+
+	public int getMaxPageination() {
+		return maxPageination;
+	}
+
+	public void setMaxPageination(int maxPageination) {
+		this.maxPageination = maxPageination;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
+	}
+
 	
 	
 	
