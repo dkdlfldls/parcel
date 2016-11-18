@@ -24,7 +24,7 @@ public class Page {
 		this.shownContentListSize = 5;
 	}
 
-	//페이지 정보 반환
+	//페이지 정보 set
 	public void setPageInfo(int contentListSize) {
 		this.contentListSize = contentListSize;
 		this.maxPageination = (int)(Math.ceil((double)contentListSize / (double)shownContentListSize));

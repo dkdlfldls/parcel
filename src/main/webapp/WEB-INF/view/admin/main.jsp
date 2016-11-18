@@ -12,12 +12,15 @@
 <script type="text/javascript" src="/resources/js/admin/admin_main.js"></script>
 <script type="text/javascript">
 $(function(){
+	//처음에 불러오도록
 	admin.getLogByPage("log-table-body", "pagination", 1, 20, $("#category").val());	
 	
+	//검색버튼
 	$("#search").click(function(){
 		admin.getLogByPageAndSearch("log-table-body", "pagination", 1, 20, $("#searchText").val(), $("#category").val());
 	})
 	
+	//카테고리 변경시
 	$("#category").change(function(){
 		admin.getLogByPage("log-table-body", "pagination", 1, 20, $("#category").val());
 	})

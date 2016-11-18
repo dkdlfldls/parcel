@@ -20,11 +20,11 @@ public class EchoHandler extends TextWebSocketHandler {
 	
 	private Logger logger = LoggerFactory.getLogger(TextWebSocketHandler.class);
 	
-	private Map<String, ArrayList<WebSocketSession>> groupChatting;
+	private Map<String, ArrayList<WebSocketSession>> groupChattingMap;
 	private List<WebSocketSession> errorList;
 	
 	public EchoHandler() {
-		groupChatting = new HashMap<String, ArrayList<WebSocketSession>>();
+		groupChattingMap = new HashMap<String, ArrayList<WebSocketSession>>();
 		errorList = new ArrayList<WebSocketSession>();
 	}
 	
@@ -58,33 +58,33 @@ public class EchoHandler extends TextWebSocketHandler {
 				logger.info("그룹 채팅 접속 요청");
 				//tempConnectionList 에 있으면 꺼내서 맵으로 그룹 맞춰서
 				
-				if (groupChatting.containsKey(messageVo.getGroup())) {//해당 그룹의 리스트가 있는가? 
-					groupChatting.get(messageVo.getGroup()).add(session); //있으면 리스트에 세션 추가
+				if (groupChattingMap.containsKey(messageVo.getGroup())) {//해당 그룹의 리스트가 있는가? 
+					groupChattingMap.get(messageVo.getGroup()).add(session); //있으면 리스트에 세션 추가
 				} else { //없으면 리스트를 만들고 세션추가한뒤 맵에 추가
 					ArrayList<WebSocketSession> list = new ArrayList<WebSocketSession>(); 
 					list.add(session);
-					groupChatting.put(messageVo.getGroup(), list);
+					groupChattingMap.put(messageVo.getGroup(), list);
 				}
 					
 				
 				//임시리스트에 세션이 없으면 무시해준다.
 			} else if (messageVo.getType().equals("3")) { //나감
 				logger.info("그룹 채팅 나가기 요청");
-				if (groupChatting.containsKey(messageVo.getGroup())) { //map에 해당 그룹의 리스트가 있음
-					if (groupChatting.get(messageVo.getGroup()).contains(session)) { //리스트에 사용자가 있음
-						groupChatting.get(messageVo.getGroup()).remove(session); //리스트에서 사용자 삭제
+				if (groupChattingMap.containsKey(messageVo.getGroup())) { //map에 해당 그룹의 리스트가 있음
+					if (groupChattingMap.get(messageVo.getGroup()).contains(session)) { //리스트에 사용자가 있음
+						groupChattingMap.get(messageVo.getGroup()).remove(session); //리스트에서 사용자 삭제
 						
-						if (groupChatting.get(messageVo.getGroup()).size() == 0) {//리스트에서 사용자가 전부 나가면 삭제
+						if (groupChattingMap.get(messageVo.getGroup()).size() == 0) {//리스트에서 사용자가 전부 나가면 삭제
 							logger.info("사용자가 없어 리스트 삭제함");
-							groupChatting.remove(messageVo.getGroup());
+							groupChattingMap.remove(messageVo.getGroup());
 						}
 					}
 				} 
 			} else if (messageVo.getType().equals("2")){
 				//메시지 전송
-				if (groupChatting.containsKey(messageVo.getGroup())) {
+				if (groupChattingMap.containsKey(messageVo.getGroup())) {
 					logger.info("그룹 채팅 메시지 전송");
-					for (WebSocketSession user : groupChatting.get(messageVo.getGroup())) {
+					for (WebSocketSession user : groupChattingMap.get(messageVo.getGroup())) {
 						//보낸 사용자는 받지 않기 위한 조건문
 						if (!session.getId().equals(user.getId())) {
 							try { //유저가 그냥 창을 꺼버리거나 리프레쉬 해버린경우 빈 session이 남는데 해당 세션떄문에 에러나면 제거하고 동작하게함
@@ -94,7 +94,7 @@ public class EchoHandler extends TextWebSocketHandler {
 							} catch (Exception e) {
 								logger.debug(e.getMessage());
 								//바로 삭제하면 안되고 리스트에 담아뒀다가 나중에 삭제한다.
-								//groupChatting.get(messageVo.getGroup()).remove(user);
+								//groupChattingMap.get(messageVo.getGroup()).remove(user);
 								errorList.add(user);
 							}
 						}
@@ -102,7 +102,7 @@ public class EchoHandler extends TextWebSocketHandler {
 				}
 				for (WebSocketSession errorSession : errorList) {
 					try {
-						groupChatting.get(messageVo.getGroup()).remove(errorSession);						
+						groupChattingMap.get(messageVo.getGroup()).remove(errorSession);						
 					} catch (Exception e) {
 						logger.debug(e.getMessage());
 					}
