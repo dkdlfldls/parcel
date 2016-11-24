@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.parcel.entity.Message;
 import com.parcel.repository.MessageRepository;
-import com.parcel.util.LogMaker;
+import com.parcel.util.TextMaker;
 import com.parcel.util.LogProperties;
 import com.parcel.util.Page;
 
@@ -25,7 +25,7 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private LogProperties prop;
 	@Autowired
-	private LogMaker logMaker;
+	private TextMaker logMaker;
 	
 
 	@Override

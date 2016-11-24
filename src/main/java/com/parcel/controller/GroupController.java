@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.parcel.entity.Invitation;
+import com.parcel.entity.User;
 import com.parcel.entity.User_group;
 import com.parcel.service.GroupService;
 
@@ -98,5 +100,84 @@ public class GroupController {
 		boolean r = groupService.dropGroup(gidx, (int)session.getAttribute("idx"));
 		
 		return "redirect:/group/groupInfo";
+	}
+	
+	@RequestMapping(value="/group/invite",  method=RequestMethod.GET)
+	public String showInvitePage(HttpSession session, Model model) {
+		//1. 현재 내 그룹 리스트
+		model.addAttribute("groupList", groupService.getGroupListByManager((int)session.getAttribute("idx")));
+		//2. 현재 내가 초대중인 리스트 --> invite 테이블도 필요
+		model.addAttribute("inviteList",groupService.getInviteListByUserIdxForSender((int)session.getAttribute("idx")));
+		return "/groupManager/groupInvitationPage";
+	}
+	
+	
+	@RequestMapping(value="/group/invite", method=RequestMethod.POST)
+	public @ResponseBody String inviteAndValidate(@RequestBody Invitation invitation ) {
+		try {
+			if (invitation.getType().equals("id")) {
+				if (groupService.inviteUserById(invitation)) {
+					return "success";
+				} else {
+					return "false";
+				}
+			} else if (invitation.getType().equals("email")){
+				if (groupService.inviteUserByEmail(invitation)) {
+					return "success";
+				} else {
+					return "false";
+				}
+			} else {
+				return "false";
+			}
+		} catch (Exception e) {
+			return "false";
+		}
+	}
+	
+	
+	@RequestMapping(value="/group/invitedList",  method=RequestMethod.GET)
+	public String showInvitedList(HttpSession session, Model model) {
+		
+		//초대받은 리스트 보기 state=1인것만 봐야한다.
+		model.addAttribute("inviteList",groupService.getInviteListByUserIdxForReceiver((int)session.getAttribute("idx")));
+		return "/groupManager/groupInvitedListPage";
+	}
+	
+	
+	
+	//취소
+	@RequestMapping(value="/group/cancle", method=RequestMethod.POST)
+	public String cancleInvitation(Invitation invitation, HttpSession session, Model model) {
+		int ownerIdx = (int)session.getAttribute("idx");
+		int deleteInvitationIdx = invitation.getIdx();
+		//주인이 post요청으로 지우는건지 확인해아한다.
+		try {
+			if (groupService.cancleInvitation(ownerIdx, deleteInvitationIdx)) {
+				model.addAttribute("result", true);
+			} else {
+				model.addAttribute("result", false);
+			}			
+		} catch (Exception e) {
+			model.addAttribute("result", false);
+		}
+		return "redirect:/group/invite";
+	}
+	//수락 및 거절
+	@RequestMapping(value="/group/permit", method=RequestMethod.POST)
+	public String permitInvitation(Invitation invitation, HttpSession session, Model model) {
+		System.out.println(invitation.isAcceptanceValue());
+		System.out.println(invitation.getIdx());
+		System.out.println(invitation.getGroup_idx());
+		
+		
+		invitation.setReceiver((int)session.getAttribute("idx"));
+		if (groupService.permitInvitation(invitation)) {
+			model.addAttribute("result", true);
+		} else {
+			model.addAttribute("result", false);
+		}
+		
+		return "redirect:/group/invitedList";
 	}
 }

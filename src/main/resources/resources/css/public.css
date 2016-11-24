@@ -16,3 +16,9 @@
 	text-align: left;
 }
 
+.element-visible {
+	visibility: visible;
+}
+.element-hidden {
+	visibility: hidden;
+}

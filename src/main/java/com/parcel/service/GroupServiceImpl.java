@@ -10,13 +10,17 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.parcel.controller.GroupController;
 import com.parcel.entity.Group_member;
+import com.parcel.entity.Invitation;
 import com.parcel.entity.User;
 import com.parcel.entity.User_group;
 import com.parcel.repository.GroupRepository;
+import com.parcel.repository.InvitationRepository;
+import com.parcel.repository.MessageRepository;
 import com.parcel.util.CodeMaker;
 import com.parcel.util.DataSecurity;
-import com.parcel.util.LogMaker;
+import com.parcel.util.TextMaker;
 import com.parcel.util.LogProperties;
+import com.parcel.util.SMTPAuthenticatior;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -38,7 +42,18 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired
 	private LogProperties prop;
 	@Autowired
-	private LogMaker logMaker;
+	private TextMaker logMaker;
+	
+	@Autowired
+	private MessageRepository messageRepository;
+	
+	@Autowired
+	private InvitationRepository invitationRepository;
+	
+	@Autowired
+	private SMTPAuthenticatior mailUtil;
+	
+	private static final String TITLE = "무인택배함 초대알림 메일입니다.";
 	
 	@Override
 	public User_group getGroupInfoForProductInfo(int pidx) {
@@ -160,6 +175,106 @@ public class GroupServiceImpl implements GroupService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	@Transactional
+	public boolean inviteUserById(Invitation invitation) {
+		
+		//그룹 멤버에 있는가?
+		if (groupRepository.checkGroupMemberByGroupIdxAndUserId(invitation.getGroup_idx(), invitation.getReceiver_id()) == 0 ) {
+			
+			//현재 초대중인가?
+			if(invitationRepository.findInviteByGroup_idAndReceiver_idAndState(invitation) == null) {
+				//초대 및 로그
+				int r = invitationRepository.insertInviteByReceiverId(invitation);
+				
+				logService.addLog(logMaker.inviteUserById(invitation.getSender(), invitation.getReceiver_id()) , null, prop.getInt("invite"));
+				if (r > 0 ) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public List<Invitation> getInviteListByUserIdxForSender(int userIdx) {
+		
+		return invitationRepository.findInviteListByUserIdxForSender(userIdx);
+	}
+
+	@Override
+	public List<Invitation> getInviteListByUserIdxForReceiver(int userIdx) {
+		
+		return invitationRepository.findInviteListByUserIdxForReceiver(userIdx);
+	}
+
+	@Override
+	public boolean cancleInvitation(int ownerIdx, int deleteInvitationIdx) {
+		
+		if (invitationRepository.checkInviteBySenderAndIdx(ownerIdx, deleteInvitationIdx)) {//있는가?
+			//있으면 update state=3해주고 true
+			if (invitationRepository.updateInviteForCancle(deleteInvitationIdx) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean permitInvitation(Invitation invitation) {
+		//1. 초대를 update해준다 state3으로 
+		if (invitationRepository.updateInviteForCancle(invitation.getIdx()) > 0) {
+			
+			if (invitation.isAcceptanceValue()) { //false 의 경우 거절
+				//2. 그룹멤버에 해당 유저를 추가한다.
+				Group_member member = new Group_member();
+				member.setGroup(invitation.getGroup_idx());
+				member.setMember(invitation.getReceiver());
+				if (groupRepository.insertGroupMember(member) > 0) {
+					return true;
+				}
+			} else {
+				return true;
+			}
+			
+		}
+		
+		//실패시 롤백
+		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		return false;
+	}
+
+	@Override
+	public List<User_group> getGroupListByManager(int manager) {
+		// TODO Auto-generated method stub
+		
+		return groupRepository.findGroupListByManager(manager);
+	}
+
+	@Override
+	public boolean inviteUserByEmail(Invitation invitation) {
+		// TODO Auto-generated method stub
+		//code, pw를 group_idx를 가지고 가져와야한다.
+		User_group group = groupRepository.findGroupByIdx(invitation.getGroup_idx());
+				
+		//메일 보내기
+		mailUtil.sendMail(invitation.getReceiver_id(), logMaker.inviteEmailContent(group), TITLE);
+		
+		//기록 남기기
+		logService.addLog(logMaker.inviteUserByEmail(invitation.getSender(), invitation.getReceiver_id()) , null, prop.getInt("invite"));
+		
+		return true;
 	}
 
 }

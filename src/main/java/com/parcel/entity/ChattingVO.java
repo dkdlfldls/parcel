@@ -10,10 +10,15 @@ public class ChattingVO {
 	private String group;
 	private String type; //type 1=접속 2=채팅 3=탈퇴
 	private String name;
-	private static Gson gson = new Gson();
+	private int userIdx;
+	public static Gson gson = new Gson();
 	
 	public ChattingVO() {
 		
+	}
+	public ChattingVO(String type, int idx) {
+		this.type = type;
+		this.userIdx = idx;
 	}
 	
 	public static ChattingVO convertMessage(String source) {
@@ -65,6 +70,14 @@ public class ChattingVO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getUserIdx() {
+		return userIdx;
+	}
+
+	public void setUserIdx(int userIdx) {
+		this.userIdx = userIdx;
 	}
 	
 	

@@ -20,4 +20,5 @@ public interface MessageRepository {
 	public List<Message> findMessageListByReceiverAndPage(int idx, Page page);
 
 	public int countMessageListByReceiver(int idx);
+
 }

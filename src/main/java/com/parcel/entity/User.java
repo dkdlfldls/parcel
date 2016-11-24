@@ -18,6 +18,8 @@ public class User {
 	private boolean hasGroup;
 	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String productName; //영문자, 숫자 1~45글자
 
+	private int groupIdx;
+	
 	public User(int idx, String id, String pw, String phone, String email, String web_authority, int state) {
 		super();
 		this.idx = idx;
@@ -225,6 +227,18 @@ public class User {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+
+
+	public int getGroupIdx() {
+		return groupIdx;
+	}
+
+
+
+	public void setGroupIdx(int groupIdx) {
+		this.groupIdx = groupIdx;
 	}
 
 

@@ -20,6 +20,9 @@ public interface GroupRepository {
 	public Group_member findGroupMemberByCodeAndMember(String code, int joiner);
 	public List<User_group> findGroupListByUserIdx(int uidx);
 	public int deleteGroupMemberByGroupAndUser(int gidx, int uidx);
+	public int checkGroupMemberByGroupIdxAndUserId(int group_idx, String receiver_id);
+	public List<User_group> findGroupListByManager(int manager);
+	public User_group findGroupByIdx(int group_idx);
 	
 	
 }

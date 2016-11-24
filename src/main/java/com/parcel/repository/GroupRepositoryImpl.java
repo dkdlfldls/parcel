@@ -1,5 +1,6 @@
 package com.parcel.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -8,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.parcel.entity.User_group;
 import com.parcel.entity.Group_member;
 import com.parcel.entity.User;
+import com.parcel.entity.User_group;
 
 @Repository
 public class GroupRepositoryImpl implements GroupRepository {
@@ -48,7 +49,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 	@Override
 	public List<User> findUserListByProductIdx(int pidx) {
 		System.out.println(pidx);
-		String sql ="SELECT u.name "
+		String sql ="SELECT u.name , u.idx "
 				+ "FROM user u "
 				+ "WHERE u.idx in (SELECT gm.member FROM group_member gm WHERE gm.group=(SELECT ug.idx FROM user_group ug WHERE ug.product=?))";
 		
@@ -56,6 +57,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 			return t.query(sql, (rs, no)->{
 				User user = new User();
 				user.setName(rs.getString("name"));
+				user.setIdx(rs.getInt("idx"));
 				return user;
 			}, pidx);
 			
@@ -209,6 +211,55 @@ public class GroupRepositoryImpl implements GroupRepository {
 		String sql ="DELETE FROM group_member WHERE group_member.group=? AND group_member.member=?";
 		
 		return t.update(sql, gidx, uidx);
+	}
+
+	@Override
+	public int checkGroupMemberByGroupIdxAndUserId(int group_idx, String receiver_id) {
+		// TODO Auto-generated method stub
+		String sql ="SELECT COUNT(idx) FROM group_member gm WHERE gm.group=? AND gm.member = (SELECT idx FROM user WHERE id=?);";
+		return t.queryForObject(sql, Integer.TYPE, group_idx, receiver_id);
+		
+	}
+
+	@Override
+	public List<User_group> findGroupListByManager(int manager) {
+		String sql = "SELECT * From user_group WHERE manager=?";
+		try {
+			return t.query(sql, (rs, no)->{
+				User_group ug = new User_group();
+				ug.setIdx(rs.getInt(1));
+				ug.setGroup_name(rs.getString(2));
+				ug.setManager(rs.getInt(3));
+				ug.setProduct(rs.getInt(4));
+				ug.setState(rs.getInt(5));
+				ug.setPw(rs.getString(6));
+				ug.setCode(rs.getString(7));
+				return ug;
+			}, manager);
+		} catch (Exception e) {
+			return new ArrayList<User_group>(); 
+		}
+	}
+
+	@Override
+	public User_group findGroupByIdx(int group_idx) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM user_group WHERE idx=?";
+		try {
+			return t.queryForObject(sql, (rs, no)->{
+				User_group ug = new User_group();
+				ug.setIdx(rs.getInt(1));
+				ug.setGroup_name(rs.getString(2));
+				ug.setManager(rs.getInt(3));
+				ug.setProduct(rs.getInt(4));
+				ug.setState(rs.getInt(5));
+				ug.setPw(rs.getString(6));
+				ug.setCode(rs.getString(7));
+				return ug;
+			}, group_idx);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

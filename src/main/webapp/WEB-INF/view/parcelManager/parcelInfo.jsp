@@ -105,6 +105,18 @@ $(function(){
 	
 	//----- 그룹 채팅 -----
 	$(function(){
+		
+		var makeMessage = function(message, group, type, name) {
+			obj = {};
+			obj.message = message;
+			obj.group = group;
+			obj.type = type;
+			obj.name = name;
+			obj.userIdx =  "${userEntity.idx }";
+			return obj;
+		}
+		
+		
 		$("#group_chat_btn").click(function(){
 			if ($("#group_chat_btn").attr("data") == 0) {
 				$("#group_chat_btn").attr("data",1);
@@ -113,23 +125,29 @@ $(function(){
 				
 				sock = new SockJS("/echo-ws");
 				
-				message = {};
-				
-				
 				sock.onopen = function() {
-					message.message = "";
-					message.group = "${group.idx }";
-					message.type = "1"
-					sock.send(JSON.stringify(message));
+					message = makeMessage("", "${group.idx }", "1", "${userEntity.name }") 
+					sock.send(JSON.stringify(message)); 
 				};
 				sock.onmessage = function(evt) {
-					$("#chatMessage").append(evt.data + "<br/>");
+					var message = JSON.parse(evt.data);
+					console.log(message);
+					if (message.type == "1") {//connect
+						var id = "access-check-" + message.userIdx;
+						$("#" + id).removeClass("glyphicon-remove");
+						$("#" + id).addClass("glyphicon-ok");
+					} else if (message.type == "3") { //break connect
+						var id = "access-check-" + message.userIdx;
+						$("#" + id).removeClass("glyphicon-ok");
+						$("#" + id).addClass("glyphicon-remove");
+					} else if (message.type == "2") { //message
+						$("#chatMessage").append(message.message + "<br/>");
+					}
+					
 				};
 				sock.onclose = function() {
-					message.message = "";
-					message.group = "${group.idx }";
-					message.type = "3"
-					sock.send(JSON.stringify(message));
+					message = makeMessage("", "${group.idx }", "3", "${userEntity.name }");
+					sock.send(JSON.stringify(message)); 
 				}
 				//chat-div 보이게 하기
 				$("#chat-div").attr("style", "visibility:visible");
@@ -149,14 +167,9 @@ $(function(){
 		$("#sendMessage").click(function(){
 			if ($("#message").val() != "") {
 				
-				message = {};
-				message.message = $("#message").val();
-				message.group = "${group.idx }";
-				message.type = "2";
-				message.name = "${userEntity.name }";
+				message = makeMessage($("#message").val(), "${group.idx }", "2", "${userEntity.name }");
 				
 				sock.send(JSON.stringify(message));
-				$("#chatMessage").append("나 -> : " + $("#message").val() + "<br/>");
 				$("#message").val("");
 			}
 		})
@@ -235,8 +248,8 @@ $(function(){
 						<div class="row">
 							<div class="col-sm-2">그룹원</div>
 							<div class="col-sm-3">
-								<c:forEach var="user" varStatus="status" items="${group.groupUserList }">
-									${status.count }.${user.name }<br/>
+								<c:forEach var="user" varStatus="status" items="${group.groupUserList }">  
+									<p>${status.count }.${user.name } : <span id="access-check-${user.idx }" class="glyphicon"></span></p>
 								</c:forEach>
 							</div>
 							<div class="col-sm-7"></div>

@@ -74,7 +74,6 @@ public class ProductController {
 	@ResponseBody
 	public boolean lock(@RequestBody User user) {
 		
-		System.out.println("@@@@@@@@@@" + user.toString());
 		
 		if (productService.lock(user)) {
 			return true;
@@ -86,7 +85,6 @@ public class ProductController {
 	@RequestMapping(value="/product/open",  method=RequestMethod.POST)
 	@ResponseBody
 	public boolean open(@RequestBody User user) {
-		System.out.println("@@@@@@@@@@" + user.toString());
 		if (productService.open(user)) {
 			return true;
 		} else {

@@ -79,7 +79,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<util:properties id="log" location="classpath:/properties/log.properties"/>
+	
 	<util:properties id="log_detail" location="classpath:/properties/log_detail.properties"/>
 	
 	<!-- 웹 소켓 설정 -->

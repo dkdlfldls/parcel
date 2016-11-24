@@ -68,7 +68,7 @@
 							<div class="panel-body">
 								<a href="/product/addPage">택배함 등록하기</a><br/>
 								<a href="/group/joinGroup">다른 그룹에 가입</a><br/>
-								선택한 택배함 그룹 열기<br/>
+								<a href="/group/invite">다른 사용자 초대하기</a><br/>
 								선택한 택배함 그룹 닫기
 							</div>
 						</div>

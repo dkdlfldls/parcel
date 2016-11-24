@@ -2,8 +2,10 @@ package com.parcel.util;
 
 import org.springframework.stereotype.Component;
 
+import com.parcel.entity.User_group;
+
 @Component
-public class LogMaker {
+public class TextMaker {
 
 	public String join(String id) {
 		return id + "님이 회원가입 하였습니다";
@@ -43,5 +45,22 @@ public class LogMaker {
 	
 	public String unlockProduct(int userIdx, int productIdx) {
 		return userIdx + "번 님이 " + productIdx + "번 제품을 열었습니다.";
+	}
+
+	public String inviteUserById(int idx, String id) {
+		
+		return idx + "번 님이 id=" + id +" 님을 초대하였습니다.";
+	}
+	public String inviteUserByEmail(int idx, String email) {
+		
+		return idx + "번 님이 email=" + email +" 님을 초대하였습니다.";
+	}
+	
+	public String inviteEmailContent(User_group group) {
+		//로컬변수니까 StringBuilder로 한다.
+		StringBuilder sb = new StringBuilder();
+		sb.append("group code : " + group.getCode()).append("<br>");
+		sb.append("group password : " + group.getPw()).append("<br>");
+		return sb.toString();
 	}
 }

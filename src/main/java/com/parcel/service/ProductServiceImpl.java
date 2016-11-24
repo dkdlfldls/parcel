@@ -16,7 +16,7 @@ import com.parcel.entity.User;
 import com.parcel.repository.MessageRepository;
 import com.parcel.repository.ProductRepository;
 import com.parcel.repository.UserRepository;
-import com.parcel.util.LogMaker;
+import com.parcel.util.TextMaker;
 import com.parcel.util.LogProperties;
 
 @Service
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private LogProperties prop;
 	@Autowired
-	private LogMaker logMaker;
+	private TextMaker logMaker;
 	
 	
 	public static final boolean LOCK = false;

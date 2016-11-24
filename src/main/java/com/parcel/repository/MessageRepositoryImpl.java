@@ -121,6 +121,8 @@ public class MessageRepositoryImpl implements MessageRepository {
 		String sql = "SELECT COUNT(idx) FROM message WHERE receiver=?";
 		return t.queryForObject(sql, Integer.class, idx);
 	}
+
+
 	
 	
 

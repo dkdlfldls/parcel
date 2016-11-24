@@ -25,6 +25,10 @@
 		<div class="row">
 				<div class="col-sm-9">
 					<!-- 메인정보 -->
+					<div class="right-align">
+						<a class="btn btn-success" href="/group/invitedList">초대받은 목록 보기</a>					
+						<a class="btn btn-success" href="/group/invite">다른 사용자 초대하기</a>					
+					</div>
 					<div class="panel-default">
 						<div class="panel-heading">
 							<ul class="list-group">
