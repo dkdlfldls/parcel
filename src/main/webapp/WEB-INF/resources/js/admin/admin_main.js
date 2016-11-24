@@ -60,7 +60,7 @@ admin.makeHtmlForLogTable = function(tableBodyId, data) { //data = {list[{},{},{
 		time = new Date(data.list[i].time);
 		$(td_no).text(data.page.firstContent + i + 1);
 		$(td_content).text(data.list[i].log);
-		$(td_time).text(time.toGMTString());
+		$(td_time).text(time.toLocaleDateString() + " " + time.toLocaleTimeString());
 		$(tr).append(td_no).append(td_content).append(td_time);
 		$("#" + tableBodyId).append(tr);
 	}
@@ -70,6 +70,18 @@ admin.makeHtmlForPagination = function(tableBodyId, ulId, listSize, pageData) {
 	var li;
 	var a;
 	$("#" + ulId).html("");
+	
+	//prev
+	if (pageData.firstPagination != 1) {
+		li = document.createElement("li");
+		a = document.createElement("a");
+		$(a).attr("href", "#").text('prev').click(function(){
+			admin.getLogByPage(tableBodyId, ulId, pageData.firstPagination - pageData.paginationSize, listSize);
+		});
+		$(li).append(a);
+		$("#" + ulId).append(li);
+	}
+	
 	for (var i = pageData.firstPagination; i <= pageData.lastPagination; i++) {
 		li = document.createElement("li");
 		a = document.createElement("a");
@@ -82,6 +94,18 @@ admin.makeHtmlForPagination = function(tableBodyId, ulId, listSize, pageData) {
 		});
 		$(li).append(a);
 		$("#" + ulId).append(li);
+	}
+	
+	//next maxPageination
+	if (pageData.lastPagination != pageData.maxPageination) {
+		li = document.createElement("li");
+		a = document.createElement("a");
+		$(a).attr("href", "#").text('next').click(function(){
+			admin.getLogByPage(tableBodyId, ulId, pageData.lastPagination + 1, listSize);
+		});
+		$(li).append(a);
+		$("#" + ulId).append(li);
+		
 	}
 }
 

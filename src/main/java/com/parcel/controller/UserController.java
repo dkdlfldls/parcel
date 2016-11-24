@@ -48,7 +48,7 @@ public class UserController {
 		} else {
 			session.setAttribute("idx", tempUser.getIdx());
 			if (tempUser.getWeb_authority().equals(ADMIN)) { //admin인경우
-				return "redirect:/admin/main";
+				return "redirect:/admin/log";
 			} else {
 				return "redirect:/parcel/main";
 			}

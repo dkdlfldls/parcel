@@ -37,9 +37,9 @@ $(function(){
 			<br/>
 			<H2>관리자 페이지</H2>
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#">로그보기</a></li>
-				<li><a href="#">Menu 1</a></li>
-			  	<li><a href="#">Menu 2</a></li>
+				<li class="active"><a href="/admin/log">로그보기</a></li>
+				<li><a href="/admin/machine">기종관리</a></li>
+			  	<li><a href="">제품관리</a></li>
 			  	<li><a href="#">메뉴 3</a></li>
 			</ul>
 		</div>
