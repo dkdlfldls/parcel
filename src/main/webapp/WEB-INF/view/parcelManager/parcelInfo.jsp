@@ -150,6 +150,8 @@ $(function(){
 					sock.send(JSON.stringify(message)); 
 				}
 				//chat-div 보이게 하기
+
+				
 				$("#chat-div").attr("style", "visibility:visible");
 				
 			} else {
@@ -159,6 +161,8 @@ $(function(){
 				sock.onclose();
 				sock.close();
 				//chat-div 안보이게 하기
+				$("#access-check-${userEntity.idx }").removeClass("glyphicon-ok");
+				$("#access-check-${userEntity.idx }").addClass("glyphicon-remove");
 				$("#chat-div").attr("style", "visibility:hidden");
 			}
 			
