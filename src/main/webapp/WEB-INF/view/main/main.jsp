@@ -64,7 +64,7 @@
 				</div>
 				<div><!-- 빠른메뉴 -->
 					<div class="panel panel-success">
-							<div class="panel-heading">빠른 메뉴</div>
+							<div class="panel-heading">관리 메뉴</div>
 							<div class="panel-body">
 								<a href="/product/addPage">택배함 등록하기</a><br/>
 								<a href="/group/joinGroup">다른 그룹에 가입</a><br/>

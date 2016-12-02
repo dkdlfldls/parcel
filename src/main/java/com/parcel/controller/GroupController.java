@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.parcel.entity.Invitation;
-import com.parcel.entity.User;
 import com.parcel.entity.User_group;
 import com.parcel.service.GroupService;
 
@@ -56,18 +55,29 @@ public class GroupController {
 		
 	}
 	@RequestMapping(value="/group/addGroup", method=RequestMethod.POST)
-	@ResponseBody
 	public String addGroupAndValidate(HttpSession session, @RequestBody @Valid User_group group, BindingResult result) {
 		//그룹을 추가하고 (코드 중복으로 인해 실패할 수 있음 -->재수없게 동시에 두 코드가 중복되서 누군가 먼저 넣은경우)
-		System.out.println(group.toString());
 		group.setManager((int)session.getAttribute("idx"));
+		
 		if(groupService.addGroup(group)) {
-			return "성공";
+			session.setAttribute("sendUserGroup", groupService.getGroupInfoForProductInfo(group.getProduct()));
+			return "forward:/group/sendGroup";
 		} else {
-			return "false";
+			return "forward:/util/false";
 		}
 		
 	}
+	
+	/*
+	 * session에 user_group을 넣어서 보내야만 반환해줌
+	 */
+	@RequestMapping(value="/group/sendGroup", method=RequestMethod.POST)
+	public @ResponseBody User_group sendGroup(HttpSession session) {
+		User_group temp = (User_group)session.getAttribute("sendUserGroup");
+		session.removeAttribute("sendUserGroup");
+		return temp;
+	}
+	
 	@RequestMapping(value="/group/deleteGroup", method=RequestMethod.POST)
 	@ResponseBody
 	public int deleteGroup(@RequestBody User_group group, HttpSession session) {
@@ -179,5 +189,12 @@ public class GroupController {
 		}
 		
 		return "redirect:/group/invitedList";
+	}
+	
+	//모바일 그룹생성 페이지
+	@RequestMapping("/group/groupMakePage")
+	public String getGroupMakePage() {
+		
+		return "/group/group_add_dialog_m";
 	}
 }

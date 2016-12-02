@@ -1,10 +1,16 @@
 package com.parcel.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,7 +40,7 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("/userJoin")
-	public String joinAndValidate(RedirectAttributes redirectAttributes, @Valid User user, BindingResult result) {
+	public String joinAndValidate(@Valid User user, BindingResult result) {
 		
 		userService.join(user);
 		return "redirect:/";
@@ -50,6 +57,7 @@ public class UserController {
 			if (tempUser.getWeb_authority().equals(ADMIN)) { //admin인경우
 				return "redirect:/admin/log";
 			} else {
+				logger.info("asdasdasdsad###@##@");
 				return "redirect:/parcel/main";
 			}
 			
@@ -85,5 +93,18 @@ public class UserController {
 		return "redirect:/user/infoModify";
 	}
 
-	
+	@RequestMapping("/w3")
+	public @ResponseBody File w3down(HttpServletResponse response) throws Exception {
+		
+		String fileName = "E:\\games\\zip\\1.png";
+	    File file = new File(fileName);
+	    
+
+	    response.setHeader("Content-Length", Long.toString(file.length()));
+	    response.setHeader("Content-Transfer-Encoding", "binary");
+	    response.setHeader("Content-Disposition", "attachment;fileName=\"" +  fileName + "\";");
+	    
+	    return file;
+
+	}
 }

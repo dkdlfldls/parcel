@@ -15,7 +15,6 @@ var validate = function(){
 	var namePattern = /^[A-Za-z가-힣]{1,30}/g;
 	var emailPattern = /^[a-z][a-z0-9_-]{0,15}@([a-z\d\.-]{1,10})\.([a-z\.]{1,6})$/;
 	var phonePattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/g;
-	
 	if(!idPattern.test($("#id").val())) {
 		alert("id 입력이 잘못되었습니다.");
 		return false;
@@ -50,7 +49,7 @@ var validate = function(){
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
-						<form action="userJoin" method="post" onsubmit="return validate()">
+						<form action="userJoin" method="post" onsubmit="return validate()" accept-charset="utf-8">
 							<div class="form-group">
 								<label>아이디</label><input type="text" name="id" id="id" autocomplete="off" placeholder="id 영문/숫자 1~20글자" class="form-control"><br/>
 							</div>

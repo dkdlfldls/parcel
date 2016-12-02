@@ -13,7 +13,7 @@ public class User {
 	@Email private String email; //email
 	private String web_authority;
 	private int state;
-	@Pattern(regexp="^[A-Za-z0-9]{1,20}") private String name; //영문자, 숫자 1~20글자
+	@Pattern(regexp="^[A-Za-z0-9가-힣]{1,20}") private String name; //영문자, 숫자 1~20글자
 	private int productIdx;
 	private boolean hasGroup;
 	@Pattern(regexp="^[A-Za-z0-9]{1,45}") private String productName; //영문자, 숫자 1~45글자

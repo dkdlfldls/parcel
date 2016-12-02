@@ -20,15 +20,11 @@ var invitationAccept = function(acceptance){
 	
 }
 
-
 </script>
 
 
 </head>
 <body>
-
-
-
 <div class="row">
 	<div class="col-sm-2"></div>
 	<div class="col-sm-8">
@@ -37,9 +33,7 @@ var invitationAccept = function(acceptance){
 		</div>
 		<div class="row">
 				<div class="col-sm-9"><!-- 메인정보 -->
-					
-					
-					초대중인 리스트<br/>
+					초대받은 리스트<br/>
 					<table class="table table-condensed">
 						<thead>
 							<tr>

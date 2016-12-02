@@ -5,12 +5,11 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.site.SitePreference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.parcel.entity.MainPageEntity;
-import com.parcel.entity.User;
 import com.parcel.service.UserService;
 
 @Controller
@@ -23,6 +22,8 @@ public class MainPageController {
 	
 	@RequestMapping("/")
 	public String getIndexPage(HttpSession session) {
+		
+		
 		if (session.getAttribute("idx") != null) {
 			return "redirect:/parcel/main";
 		} else {
@@ -45,6 +46,9 @@ public class MainPageController {
 		return "/user/join";
 	}
 	
-	
+	@RequestMapping("/intro/main")
+	public String getIntroPage() {
+		return "/intro/introMain";
+	}
 
 }

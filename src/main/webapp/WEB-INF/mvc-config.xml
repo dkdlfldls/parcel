@@ -19,6 +19,7 @@
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
+			
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<property name="supportedMediaTypes">
 					<list>
@@ -26,23 +27,47 @@
 					</list>
 				</property>
 			</bean>
+			<!--  <bean class="com.parcel.util.FileHttpMessageConverter">
+			
+			</bean>-->
 
 		</mvc:message-converters>
+		
+		<!-- request 파라미터로 받기 위함 -->
+		<mvc:argument-resolvers>
+	        <bean class="org.springframework.mobile.device.site.SitePreferenceWebArgumentResolver" />
+	    </mvc:argument-resolvers>
 	</mvc:annotation-driven>
+	
+	
     <mvc:default-servlet-handler/>
 	 
 	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/"/>
 	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
-	        <property name="prefix" value="/WEB-INF/view/"/>
-	        <property name="suffix" value=".jsp"/>
+	
+	<bean class="org.springframework.mobile.device.view.LiteDeviceDelegatingViewResolver">
+		<constructor-arg>
+			<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
+			        <property name="prefix" value="/WEB-INF/view/"/>
+			        <property name="suffix" value=".jsp"/>
+			        <property name="contentType" value="text/html; charset=UTF-8"></property>
+			</bean>
+		</constructor-arg>
+		<property name="mobileSuffix" value="_m"/>
+		<property name="enableFallback" value="true"/>
 	</bean>
+	
 	
 	<aop:aspectj-autoproxy/>
 	<bean id="controllerAop" class="com.parcel.aop.ControllerAop"/>
 	
 	<mvc:interceptors>
+		<!-- mvc-config.xml = interceptor -->
+		<bean class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor"/>
+		
+		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor"/>
+		
 		<mvc:interceptor>
 			<mvc:mapping path="/parcel/main"/>
 			<mvc:mapping path="/group/**"/>
@@ -54,15 +79,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
-	<!--  
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="java.lang.Exception">../index</prop>
-			</props>
-		</property>
-	</bean> 
-	-->
+	
 	
 
 	<context:component-scan base-package="com.parcel.controller"></context:component-scan>

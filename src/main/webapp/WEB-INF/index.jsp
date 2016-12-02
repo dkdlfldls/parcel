@@ -16,15 +16,15 @@
 
 </head>
 <body>
-	
+	<a href="/w3">워크3다운로드</a>
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-xs-2"></div>
+		<div class="col-xs-8">
 			<div style="width: 100px"></div>
 				<h1>login page</h1>
 				<div class="row">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-8">
+					<div class="col-xs-2"></div>
+					<div class="col-xs-8">
 						<form action="login" method="post">
 							<div class="form-group">
 								<label>id</label>
@@ -38,15 +38,16 @@
 								
 								<input type="submit" class="btn btn-default" value="로그인">
 								<a href="join" class="btn btn-default">가입</a>
+								<a href="/intro/main" class="btn btn-default">사용 설명서</a>
 							</div>
 						</form>
 					</div>
-					<div class="col-sm-2"></div>
+					<div class="col-xs-2"></div>
 				
 				</div>
 			
 		</div>
-		<div class="col-sm-2"></div>
+		<div class="col-xs-2"></div>
 	
 	
 	</div>

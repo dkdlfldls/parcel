@@ -9,7 +9,8 @@
 
 <link rel="import" href="<spring:url value='/resources/html/include.html'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
-
+<link rel="stylesheet" href="<spring:url value='/resources/css/bootstrap-3.3.7-dist/css/bootstrap.min.css'/>">
+<script type="text/javascript" src="<spring:url value='/resources/css/bootstrap-3.3.7-dist/js/bootstrap.min.js'/>"></script>
 <script type="text/javascript">
 	var checkMessage = function(num) {
 		$.ajax({
@@ -60,7 +61,7 @@
 						<tbody>
 							<c:forEach var="i" varStatus="status" items="${messageList }">
 								<tr>
-									<td>${status.count }. </td>
+									<td>${pageInfo.firstContent + status.count + 1 }</td>
 									<td>${i.message }</td>
 									<td>${i.send_time }</td>
 									<td id="show${i.idx }">
@@ -80,6 +81,9 @@
 						<!-- 페이징 부분 -->
 						<div style="text-align: center;">
 							<ul class="pagination">
+								<c:if test="${pageInfo.firstPagination ne 1 }">
+									<li><a href="/message/info?currentPage=${pageInfo.firstPagination - pageInfo.paginationSize}">prev</a></li>
+								</c:if>
 								<c:forEach begin="${pageInfo.firstPagination }" end="${pageInfo.lastPagination }" var="i">
 									<c:if test="${i eq  pageInfo.currentPage}">
 										<li class="active"><a href="/message/info?currentPage=${i }">${i }</a></li>
@@ -87,8 +91,10 @@
 									<c:if test="${i ne  pageInfo.currentPage}">
 										<li><a href="/message/info?currentPage=${i }">${i }</a></li>
 									</c:if>
-								
 								</c:forEach>
+								<c:if test="${pageInfo.lastPagination ne pageInfo.maxPageination}">
+									<li><a href="/message/info?currentPage=${pageInfo.lastPagination + 1}">next</a></li>
+								</c:if>
 							</ul>
 						</div>
 				</c:if>

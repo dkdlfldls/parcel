@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="<spring:url value='/resources/css/parcelInfo.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/chat_board.css'/>">
 
+<script type="text/javascript" src="/resources/js/parcel/parcelInfo.js"></script>
+
 <script type="text/javascript" src="<spring:url value='/resources/javascript/sockjs/sockjs-1.1.1.min.js'/>"></script>
 <script type="text/javascript">
 
@@ -45,38 +47,8 @@ var group_delete_request = function() {
 }
 
 $(function(){
-	
-	$("[data-toggle=popover]").popover({
-	     html : true,
-	     content: $("#popover_content").html()
-	 });
-	
-	
-	$("#do_lock").click(function(){
-		//1. ajax로 잠그기 요청 (자신idx, product idx 전송)
-		$.ajax({
-			url : "lock",
-			contentType: "application/json",
-			type : "post",
-			data : JSON.stringify({
-				idx : "${userEntity.idx}",
-				productIdx : "${product.idx}",
-				hasGroup : "${hasGroup}",
-				productName : "${product.public_name }"
-			}),
-			success: function(data, status){
-				if (data == true) {
-					alert("잠그기 성공");
-					location.href="";
-				} else {
-					alert("잠그기 실패");
-				}
-			}
-		});
-		//2.잘 잠겼다고 답 오면 페이지 재접속
-	});
-	$("#do_open").click(function(){
-		//1. ajax로 열기 요청 (자신idx, product idx 전송)
+	var parcelInfo = {};
+	parcelInfo.open = function(locker){
 		$.ajax({
 			url : "open",
 			contentType : "application/json",
@@ -89,17 +61,51 @@ $(function(){
 			}),
 			success : function(data, status) {
 				if (data == true) {
-					alert("열기 성공");
-					location.href="";
+					$("#locker").val("잠그기");
 				} else {
 					alert("열기 실패");
 				}
 			}
 		});
-			//2.잘 열렸다고 답 오면 페이지 재접속
+	};
+
+	parcelInfo.close = function(locker){
+		$.ajax({
+			url : "lock",
+			contentType: "application/json",
+			type : "post",
+			data : JSON.stringify({
+				idx : "${userEntity.idx}",
+				productIdx : "${product.idx}",
+				hasGroup : "${hasGroup}",
+				productName : "${product.public_name }"
+			}),
+			success: function(data, status){
+				if (data == true) {
+					$("#locker").val("열기");
+				} else {
+					alert("잠그기 실패");
+				}
+			}
 		});
+	}
+	
+	$("[data-toggle=popover]").popover({
+	     html : true,
+	     content: $("#popover_content").html()
+	 });
+	
+	$("#locker").click(function(){
+		if($("#locker").attr("data-lock") == 0) {//열려있고
+			$("#locker").attr("data-lock", "1");
+			parcelInfo.close($("#locker"));
+		} else if($("#locker").attr("data-lock") == 1) { //닫혀있고
+			$("#locker").attr("data-lock", "0");
+			parcelInfo.open($("#locker"));
+		}
+	});
 		
-	})
+})
 	
 	
 	
@@ -231,8 +237,8 @@ $(function(){
 					
 					<c:if test="${hasGroup eq false}">
 						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#group_add_modal">그룹 만들기</button>
-						<c:if test="${product.is_open eq 0 }"><input type="button" id="do_lock" class="btn btn-info" value="잠그기"></c:if>
-						<c:if test="${product.is_open ne 0 }"><input type="button" id="do_open" class="btn btn-info" value="열기"></c:if>
+						<c:if test="${product.is_open eq 0 }"><input type="button" id="locker" data-lock="0" value="잠그기" class="btn btn-success"></c:if>
+						<c:if test="${product.is_open ne 0 }"><input type="button" id="locker" data-lock="1" value="열기" class="btn btn-success"></c:if>
 						<br/>
 						그룹 없음
 					</c:if>
@@ -242,8 +248,8 @@ $(function(){
 								data-toggle="popover" title="그룹 없애기 확인" value="그룹 없애기"
 								data-content="" html="true">
 						</c:if>
-						<c:if test="${product.is_open eq 0 }"><input type="button" id="do_lock" class="btn btn-info" value="잠그기"></c:if>
-						<c:if test="${product.is_open ne 0 }"><input type="button" id="do_open" class="btn btn-info" value="열기"></c:if>
+						<c:if test="${product.is_open eq 0 }"><input type="button" id="locker" data-lock="0" value="잠그기" class="btn btn-success"></c:if>
+						<c:if test="${product.is_open ne 0 }"><input type="button" id="locker" data-lock="1" value="열기" class="btn btn-success"></c:if>
 						<br/>
 						그룹명 : ${group.group_name }<br/>
 						pw : ${group.pw }<br/>

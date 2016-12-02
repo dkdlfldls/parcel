@@ -66,7 +66,7 @@ var validate = function(){
 						</div>
 						<div class="form-group right-align">
 							<button type="submit" class="btn btn-default">가입하기</button>
-							<a href="../main" class="btn btn-default">돌아가기</a>
+							<a href="/parcel/main" class="btn btn-default">돌아가기</a>
 						</div>
 					</form>
 				</div>

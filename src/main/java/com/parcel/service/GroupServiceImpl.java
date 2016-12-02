@@ -109,7 +109,6 @@ public class GroupServiceImpl implements GroupService {
 		//0. pw를 확인한다.
 		int delGroupMemberCnt;
 		int delGroupCnt;
-		System.out.println(group.toString());
 		try {
 			if(groupRepository.isValidPw(group)) {
 				//groupMember를 싹다지운다.

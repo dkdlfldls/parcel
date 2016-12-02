@@ -24,7 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	
 	@Override
 	public List<Machine> getMachineList() {
-		String sql = "SELECT * FROM machine";
+		String sql = "SELECT * FROM machine WHERE state=1";
 		return t.query(sql, (rs,no)->{
 			Machine m = new Machine(
 					rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getTimestamp(4)

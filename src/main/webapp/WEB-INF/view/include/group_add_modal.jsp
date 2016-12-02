@@ -93,11 +93,12 @@
 					product : "${product.idx}"
 				}),
 				success : function(data, status) {
-					if (data == "false") {
+					if (data == false) {
 						alert("그룹을 만드는데 실패하였습니다.")
 					} else {
-						alert("그룹을 만들었습니다");
+						//user_group 데이터를 받긴하는데 시간상 일단은 페이지를 다시 불러오도록 한다.
 						location.href="";
+						
 					}
 				}
 			});

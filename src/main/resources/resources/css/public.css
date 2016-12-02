@@ -21,4 +21,10 @@
 }
 .element-hidden {
 	visibility: hidden;
+	
 }
+
+.element-unsubstantial {
+	display: none;
+}
+

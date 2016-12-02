@@ -97,7 +97,7 @@ public class MessageRepositoryImpl implements MessageRepository {
 
 	@Override
 	public List<Message> findMessageListByReceiverAndPage(int idx, Page page) {
-		String sql ="SELECT * FROM message WHERE receiver=? ORDER BY message.show ASC LIMIT ?, ?";
+		String sql ="SELECT * FROM message WHERE receiver=? ORDER BY message.show ASC, message.send_time desc LIMIT ?, ?";
 		
 		try {
 			return t.query(sql, (rs, no)->{

@@ -66,7 +66,7 @@ public class ControllerAop {
 		    return (String)point.proceed();
 		} else {
 			//에러가 있는경우
-			logger.info("validation aop has error");
+			logger.info("validation aop has error : " + result.getAllErrors().toString());
 			request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 			response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 			
