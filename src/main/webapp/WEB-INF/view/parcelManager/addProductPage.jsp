@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 
 <jsp:include page="/WEB-INF/view/include/mobile_include.jsp"/>
-<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
 
 <script type="text/javascript">
 

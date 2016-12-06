@@ -8,20 +8,41 @@
 
 <link rel="import" href="<spring:url value="/resources/html/include.html"/>">
 
+<script type="text/javascript">
+
+var clickTab = function(tabNum){
+	var id = "m" + tabNum;
+	$("#" + id).trigger("click");
+}
+
+</script>
+
 <title>Insert title here</title>
 </head>
 <body>
 
 	<ul class="nav nav-tabs">
 		<li><a href="/">첫 페이지로</a></li>
-		<li class="active"><a data-toggle="tab" href="#menu1">1. 로그인/회원가입</a></li>
-		<li><a data-toggle="tab" href="#menu2">2. 제품 등록/사용</a></li>
-		<li><a data-toggle="tab" href="#menu3">3. 그룹 생성/관리</a></li>
-		<li><a data-toggle="tab" href="#menu4">4. 그룹에 초대/다른 그룹 가입</a></li>
-		<li><a data-toggle="tab" href="#menu5">5. 기타 기능</a></li>
+		<li class="active"><a data-toggle="tab" href="#menu0" id="m0">Intro</a></li>
+		<li><a data-toggle="tab" href="#menu1" id="m1">1. 로그인/회원가입</a></li>
+		<li><a data-toggle="tab" href="#menu2" id="m2">2. 제품 등록/사용</a></li>
+		<li><a data-toggle="tab" href="#menu3" id="m3">3. 그룹 생성/관리</a></li>
+		<li><a data-toggle="tab" href="#menu4" id="m4">4. 그룹에 초대/다른 그룹 가입</a></li>
+		<li><a data-toggle="tab" href="#menu5" id="m5">5. 기타 기능</a></li>
 	</ul>
 
 	<div class="tab-content">
+		<div id="menu0" class="tab-pane fade in active">
+			<p>1. 제품을 구매합니다.</p> 
+			<p>2. 아이디가 있는경우 로그인을 하고 없는경우 회원가입 이후 로그인을 합니다. <a onclick="clickTab(1)">==로그인/회원가입 방법==</a></p>
+			<p>3. 구매하신 제품을 등록합니다. <a onclick="clickTab(2)">==제품 등록/사용 방법==</a></p>
+			<p>4. 제품관리 메뉴에 등록된 제품을 사용할 수 있으며 필요에 따라 다른 사람들과 함께 사용할 수 있습니다.</p>
+			<p>5. 다른 사람과 함께 사용하려면 그룹을 만들어서 다른 사람들을 초대하거나 들어올 수 있도록 그룹정보를 알려줍니다.</p>
+			<p><a onclick="clickTab(3)">==그룹 생성/관리 방법==</a></p>
+			<p><a onclick="clickTab(4)">==그룹에 초대/다른 그룹 가입 방법==</a></p>
+			<p>이 외 정보를 알고싶으시다면 해당페이지의 다른 메뉴들도 읽어주세요. </p>
+			<p>감사합니다.</p>
+		</div>
 		<div id="menu1" class="tab-pane fade in active">
 			<h3>1-1. 로그인</h3>
 			<img src="/resources/image/intro/1/loginIntro.png" class="img-rounded" width="708" height="532">

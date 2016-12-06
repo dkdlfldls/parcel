@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 
 <link rel="import" href="<spring:url value='/resources/html/include.html'/>">
-<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/groupInfo.css'/>">
 
 <script type="text/javascript">

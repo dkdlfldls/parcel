@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
 <link rel="stylesheet" href="<spring:url value='/resources/css/groupInfo.css'/>">
 
 <jsp:include page="/WEB-INF/view/include/mobile_include.jsp"/>

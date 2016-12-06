@@ -7,7 +7,7 @@
 <head>
 
 <link rel="import" href="<spring:url value='/resources/html/include.html'/>">
-<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
 
 <script type="text/javascript" src="/resources/js/admin/admin_main.js"></script>
 <script type="text/javascript">

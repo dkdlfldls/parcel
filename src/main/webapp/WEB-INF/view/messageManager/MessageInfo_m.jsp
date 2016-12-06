@@ -9,7 +9,7 @@
 
 <jsp:include page="/WEB-INF/view/include/mobile_include.jsp"/>
 <link rel="stylesheet"  href="<spring:url value='/resources/css/bootstrap-3.3.7-dist/css/bootstrap.min.css'/>">
-<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
 
 <script type="text/javascript">
 	var checkMessage = function(num) {
