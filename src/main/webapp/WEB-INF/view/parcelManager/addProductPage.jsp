@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<jsp:include page="/WEB-INF/view/include/mobile_include.jsp"/>
-<link rel="stylesheet" href="<spring:url value='/resources/css/nsh_public.css'/>">
+<link rel="import" href="<spring:url value='/resources/html/include.html'/>">
+<link rel="stylesheet" href="<spring:url value='/resources/css/public.css'/>">
 
 <script type="text/javascript">
 
@@ -62,36 +62,56 @@ $(function(){
 </head>
 <body>
 
-<jsp:include page="../include/mobile_main_menu.jsp"/>
-<div class="panel panel-info">
-	<div class="panel-heading">택배함 추가하기</div>
-	<div class="panel-body">
-		<form>
-			<!-- 	machine(select로 선택하도록)	machine_code(기계보고 직접입력)
-				public_name(이름 정해줘야함)-->
-			<div class="form-group">
-				<label for="machine">택배함 종류:</label> 
-				<select class="form-control" id="machine">
-					<option value="0">택배함 종류를 선택하세요</option>
-					<c:forEach var="e" items="${machineList}">
-						<option value="${e.idx }">${e.machine_name}</option>
-					</c:forEach>
-					
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="machine_code">택배함 고유 코드:</label> 
-				<input type="text" class="form-control" id="machine_code" placeholder="영소문자, 숫자 1~45글자">
-			</div>
-			<div class="form-group">
-				<label for="public_name">사용할 택배함 이름:</label> 
-				<input type="text" class="form-control" id="public_name" placeholder="한글, 영문자, 숫자, 띄어쓰기 2~30글자">
-			</div>
-			<button type="button" class="btn btn-default" id="addProduct">추가하기</button>
-			<a href="/parcel/main" type="button" class="btn btn-default">돌아가기</a>
-		</form>
-	</div>
-</div>
 
+
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-8">
+		<div><!-- 메뉴공간 -->
+			<jsp:include page="../include/main_menu_nev.jsp"/>
+		</div>
+		<div class="row">
+			<div class="col-sm-9"><!-- 메인정보 -->
+					<div class="panel panel-info">
+						<div class="panel-heading">택배함 추가하기</div>
+						<div class="panel-body">
+							<form>
+								<!-- 	machine(select로 선택하도록)	machine_code(기계보고 직접입력)
+									public_name(이름 정해줘야함)-->
+								<div class="form-group">
+									<label for="machine">택배함 종류:</label> 
+									<select class="form-control" id="machine">
+										<option value="0">택배함 종류를 선택하세요</option>
+										<c:forEach var="e" items="${machineList}">
+											<option value="${e.idx }">${e.machine_name}</option>
+										</c:forEach>
+										
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="machine_code">택배함 고유 코드:</label> 
+									<input type="text" class="form-control" id="machine_code" placeholder="영소문자, 숫자 1~45글자">
+								</div>
+								<div class="form-group">
+									<label for="public_name">사용할 택배함 이름:</label> 
+									<input type="text" class="form-control" id="public_name" placeholder="한글, 영문자, 숫자, 띄어쓰기 2~30글자">
+								</div>
+								<button type="button" class="btn btn-default" id="addProduct">추가하기</button>
+								<a href="../main" type="button" class="btn btn-default" id="addProduct">돌아가기</a>
+							</form>
+
+
+						</div>
+					</div>
+			</div>
+			<div class="col-sm-3">
+				<div><!-- 사용자 메뉴 -->
+					<jsp:include page="../include/simpleUserInfo.jsp"></jsp:include>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-2"></div>
+</div>
 </body>
 </html>
